@@ -12,6 +12,10 @@
     --engrid__content-footer_padding: 0 1em !important;
   }
 
+  .hidden {
+    display: none;
+  }
+
   // TYPOGRAPHY DEFAULT
   --default_font-family: "Graphik",
   "Arial",
@@ -106,13 +110,13 @@
   // --button_border-radius: 6px;
 
   // TYPOGRAPHY BUTTON:HOVER
-  --button_color_hover: #000000;
-  --button_background-color_hover: #e3bbb7;
+  --button_color_hover: #ffffff;
+  --button_background-color_hover: #ffeffe;
   // --button_border-color_hover: var(--button_background-color_hover);
 
   // TYPOGRAPHY BUTTON:SELECTED
   --button_color_checked: #000000;
-  --button_background-color_checked: #ee3524;
+  --button_background-color_checked: #000000;
   // --button_border-color_checked: var(--button_border-color_hover);
 
   // DONATION PAGE
@@ -122,7 +126,7 @@
   --donation-amount__button_count: 3;
   --give-by-select__button_count: 1;
 
-  --donation-amount__button_background-color_checked: #ee3524;
+  --donation-amount__button_background-color_checked: #000000;
   --donation-amount__button_border-color_hover: #000000;
   --donation-amount__button_border-color_checked: #000000;
 
@@ -130,13 +134,16 @@
   "Arial",
   "sans-serif";
 
-  --recurring-frequency__button_background-color_hover: #e3bbb7;
-  --recurring-frequency__button_background-color_checked: #ee3524;
+  --recurring-frequency__button_background-color_hover: #000000;
+  --recurring-frequency__button_background-color_checked: #000000;
 
   --submit__button_background-color: #ee3524;
-  --submit__button_background-color_hover: #e3bbb7;
+  --submit__button_background-color_hover: #000000;
+  --submit__button_border-color: #000000;
   --submit__button_border-color_hover: #000000;
   --submit__button_font-size: 21px;
+  --submit__button_color: #ffffff;
+  --submit__button_color_hover: #ffffff;
 
   --checkbox_font-size: 14px;
   // this is defined & used only within this stylesheet
@@ -146,7 +153,7 @@
 
   --give-by-select__button_border-color_checked: #000000;
   --give-by-select__button_border-color_hover: #000000;
-  --give-by-select__button_background-color_checked: #ee3524;
+  --give-by-select__button_background-color_checked: #000000;
 
   --engrid__body-headerOutside_background-color: #ffffff;
 
@@ -541,7 +548,7 @@ h3 {
 
   @media screen and (min-width: 620px) and (max-width: 1022px) {
     &[data-engrid-js-loading="finished"]:before {
-      background: #0057b8 !important;
+      background: #ee3524 !important;
     }
 
     .body-headerOutside {
@@ -589,7 +596,7 @@ h3 {
   .gift-summary {
     border-width: 1px 0;
     border-style: dashed;
-    border-color: #0057b8;
+    border-color: #ee3524;
     margin: 30px auto;
     padding: 20px !important;
 

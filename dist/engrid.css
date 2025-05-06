@@ -7740,29 +7740,32 @@ body[data-engrid-debug]:before{
   --button_background-color:#fff;
   --button_border-width:1px;
   --button_border-color:#000;
-  --button_color_hover:#000;
-  --button_background-color_hover:#e3bbb7;
+  --button_color_hover:#fff;
+  --button_background-color_hover:#ffeffe;
   --button_color_checked:#000;
-  --button_background-color_checked:#ee3524;
+  --button_background-color_checked:#000;
   --give-monthly-donation-amount-appended-label:"/mo";
   --recurring-frequency__button_count:4;
   --donation-amount__button_count:3;
   --give-by-select__button_count:1;
-  --donation-amount__button_background-color_checked:#ee3524;
+  --donation-amount__button_background-color_checked:#000;
   --donation-amount__button_border-color_hover:#000;
   --donation-amount__button_border-color_checked:#000;
   --radio_font-family:"Graphik", "Arial", "sans-serif";
-  --recurring-frequency__button_background-color_hover:#e3bbb7;
-  --recurring-frequency__button_background-color_checked:#ee3524;
+  --recurring-frequency__button_background-color_hover:#000;
+  --recurring-frequency__button_background-color_checked:#000;
   --submit__button_background-color:#ee3524;
-  --submit__button_background-color_hover:#e3bbb7;
+  --submit__button_background-color_hover:#000;
+  --submit__button_border-color:#000;
   --submit__button_border-color_hover:#000;
   --submit__button_font-size:21px;
+  --submit__button_color:#fff;
+  --submit__button_color_hover:#fff;
   --checkbox_font-size:14px;
   --strong_font-family:"GraphikSemiBold", "Arial Black", "sans-serif";
   --give-by-select__button_border-color_checked:#000;
   --give-by-select__button_border-color_hover:#000;
-  --give-by-select__button_background-color_checked:#ee3524;
+  --give-by-select__button_background-color_checked:#000;
   --engrid__body-headerOutside_background-color:#fff;
   --engrid__body_box-shadow:none;
   --fields_spacing-block:6px;
@@ -7780,6 +7783,9 @@ body[data-engrid-debug]:before{
     --engrid__body-title_padding:0 1em;
     --engrid__content-footer_padding:0 1em !important;
   }
+}
+[data-engrid-theme=spcai] .hidden{
+  display:none;
 }
 
 h2{
@@ -8052,7 +8058,7 @@ h3.section-header{
 }
 @media screen and (min-width:620px) and (max-width:1022px){
   [data-engrid-theme=spcai][data-engrid-js-loading=finished]:before{
-    background:#0057b8 !important;
+    background:#ee3524 !important;
   }
   [data-engrid-theme=spcai] .body-headerOutside{
     border-top:10px solid #000;
@@ -8088,7 +8094,7 @@ h3.section-header{
   }
 }
 [data-engrid-theme=spcai] .gift-summary{
-  border-color:#0057b8;
+  border-color:#ee3524;
   border-style:dashed;
   border-width:1px 0;
   margin:30px auto;
