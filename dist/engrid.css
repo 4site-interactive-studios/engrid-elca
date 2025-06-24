@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, June 24, 2025 @ 15:49:05 ET
+ *  Date: Tuesday, June 24, 2025 @ 16:04:14 ET
  *  By: bryancasler
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.7
@@ -7816,7 +7816,7 @@ h3{
 h3.section-header{
   color:#000;
 }
-[data-engrid-theme=spcai]#en__pagebuilder .body-bannerOverlay,[data-engrid-theme=spcai]#en__pagebuilder .body-bottom,[data-engrid-theme=spcai]#en__pagebuilder .body-footer,[data-engrid-theme=spcai]#en__pagebuilder .body-footerOutside,[data-engrid-theme=spcai]#en__pagebuilder .body-header,[data-engrid-theme=spcai]#en__pagebuilder .content-footerSpacer,[data-engrid-theme=spcai]#en__pagebuilder .content-header,[data-engrid-theme=spcai]#en__pagebuilder .content-preFooter,[data-engrid-theme=spcai]#en__pagebuilder .page-alert,[data-engrid-theme=spcai]#en__pagebuilder .page-backgroundImageOverlay{
+[data-engrid-theme=spcai] .body-bannerOverlay,[data-engrid-theme=spcai] .body-bottom,[data-engrid-theme=spcai] .body-footer,[data-engrid-theme=spcai] .body-footerOutside,[data-engrid-theme=spcai] .body-header,[data-engrid-theme=spcai] .body-headerOutside,[data-engrid-theme=spcai] .content-header,[data-engrid-theme=spcai] .content-preFooter,[data-engrid-theme=spcai] .page-alert,[data-engrid-theme=spcai] .page-backgroundImageOverlay,[data-engrid-theme=spcai]#en__pagebuilder .content-footerSpacer{
   display:none !important;
 }
 [data-engrid-theme=spcai]#en__pagebuilder #engrid{
@@ -8075,19 +8075,16 @@ h3.section-header{
 }
 @media screen and (min-width:620px) and (max-width:1022px){
   [data-engrid-theme=spcai][data-engrid-js-loading=finished]:before{
-    background:#ee3524 !important;
+    background:#fff !important;
   }
   [data-engrid-theme=spcai] .body-headerOutside{
     border-top:10px solid #000;
     margin-top:2rem;
     padding-top:1rem;
   }
-  [data-engrid-theme=spcai] #engrid{
+  [data-engrid-theme=spcai] .en__component--advcolumn>*{
     margin:0 auto;
     max-width:550px;
-  }
-  [data-engrid-theme=spcai] .content-footer{
-    margin-bottom:3rem;
   }
 }
 @media screen and (min-width:1023px){

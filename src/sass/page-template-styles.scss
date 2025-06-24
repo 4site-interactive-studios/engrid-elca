@@ -172,16 +172,17 @@ h3 {
 
 [data-engrid-theme="spcai"] {
   /* Hide NPCA unused sections */
-  &#en__pagebuilder .page-alert,
-  &#en__pagebuilder .content-header,
-  &#en__pagebuilder .body-header,
-  &#en__pagebuilder .body-bannerOverlay,
-  &#en__pagebuilder .body-bottom,
-  &#en__pagebuilder .body-footer,
-  &#en__pagebuilder .body-footerOutside,
+  .page-alert,
+  .content-header,
+  .body-headerOutside,
+  .body-header,
+  .body-bannerOverlay,
+  .body-bottom,
+  .body-footer,
+  .body-footerOutside,
   &#en__pagebuilder .content-footerSpacer,
-  &#en__pagebuilder .content-preFooter,
-  &#en__pagebuilder .page-backgroundImageOverlay {
+  .content-preFooter,
+  .page-backgroundImageOverlay {
     display: none !important;
   }
 
@@ -551,7 +552,7 @@ h3 {
 
   @media screen and (min-width: 620px) and (max-width: 1022px) {
     &[data-engrid-js-loading="finished"]:before {
-      background: #ee3524 !important;
+      background: #ffffff !important;
     }
 
     .body-headerOutside {
@@ -560,13 +561,9 @@ h3 {
       border-top: 10px solid #000000;
     }
 
-    #engrid {
+    .en__component--advcolumn > * {
       max-width: 550px;
       margin: 0 auto;
-    }
-
-    .content-footer {
-      margin-bottom: 3rem;
     }
   }
 
