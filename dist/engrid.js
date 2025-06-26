@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, June 24, 2025 @ 16:04:14 ET
- *  By: bryancasler
+ *  Date: Thursday, June 26, 2025 @ 10:22:09 ET
+ *  By: michael
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.7
  *
@@ -23988,9 +23988,44 @@ const customScript = function (App, EnForm) {
     setupPhoneOptInCheckbox();
   }
 };
+;// ./src/scripts/tatango.ts
+
+function sendSupporterDataToTatango() {
+  const country = engrid_ENGrid.getFieldValue("supporter.country");
+  const phoneNumber = formatPhoneNumber(engrid_ENGrid.getFieldValue("supporter.phoneNumber2"));
+  if (country !== "US" || !phoneNumber) {
+    // Only send data for US supporters and valid phone numbers
+    return;
+  }
+  fetch("https://pwo5v1kuzb.execute-api.us-east-1.amazonaws.com/Prod/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "1O4AqxKOIq7w37uyRBeOkalWiFxVzXOO61iqmwzX"
+    },
+    body: JSON.stringify({
+      "phone_number": phoneNumber,
+      "first_name": engrid_ENGrid.getFieldValue("supporter.firstName"),
+      "last_name": engrid_ENGrid.getFieldValue("supporter.lastName"),
+      "email": engrid_ENGrid.getFieldValue("supporter.emailAddress"),
+      "zip_code": engrid_ENGrid.getFieldValue("supporter.postcode")
+    })
+  }).then(r => {});
+}
+function formatPhoneNumber(phone) {
+  // Remove all non-digit characters from the phone number and get the last 10 digits
+  // Matches the format expected by Tatango:
+  // 10 digits, no country code, no spaces or special characters
+  const cleaned = phone.replace(/\D/g, "").slice(-10);
+  if (cleaned.length !== 10) {
+    return null;
+  }
+  return cleaned;
+}
 ;// ./src/index.ts
  // Uses ENGrid via NPM
 // import { Options, App } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+
 
 
 
@@ -24027,7 +24062,10 @@ const options = {
     new DonationLightboxForm(DonationAmount, DonationFrequency, App);
     customScript(App, en_form_EnForm);
   },
-  onResize: () => App.log("Starter Theme Window Resized")
+  onResize: () => App.log("Starter Theme Window Resized"),
+  onSubmit: () => {
+    sendSupporterDataToTatango();
+  }
 };
 new App(options);
 })();

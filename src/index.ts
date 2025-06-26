@@ -10,6 +10,7 @@ import {
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
+import { sendSupporterDataToTatango } from "./scripts/tatango";
 
 const vgsCss = {
   '@font-face': {
@@ -31,19 +32,22 @@ const options: Options = {
   ProgressBar: true,
   VGS: {
     "transaction.ccnumber": {
-      css: vgsCss      
+      css: vgsCss
     },
     "transaction.ccvv": {
       css: vgsCss
     }
   },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
-  
+
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency, App);
     customScript(App, EnForm);
   },
   onResize: () => App.log("Starter Theme Window Resized"),
+  onSubmit: () => {
+    sendSupporterDataToTatango();
+  }
 };
 new App(options);
