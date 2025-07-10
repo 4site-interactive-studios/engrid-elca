@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, June 24, 2025 @ 16:04:14 ET
- *  By: bryancasler
+ *  Date: Thursday, July 10, 2025 @ 16:33:58 ET
+ *  By: michael
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.7
  *
@@ -23890,7 +23890,7 @@ const customScript = function (App, EnForm) {
     donationFields.forEach((field, index) => {
       const input = field.querySelector("input[name='transaction.donationAmt.other']");
       if (input) {
-        const placeholder = index === 4 || index === 7 ? "Enter Other Amount" : "Other";
+        const placeholder = index === 4 || index === 7 ? "Custom Amount" : "Custom Amount";
 
         // Set initial placeholder
         input.placeholder = placeholder;
@@ -23987,6 +23987,14 @@ const customScript = function (App, EnForm) {
     // );
     setupPhoneOptInCheckbox();
   }
+
+  // Add upsell message below the recurring selector
+  const upsell = document.querySelector('.upsell-message');
+  const recurrField = document.querySelector('.en__field--recurrfreq');
+  if (upsell && recurrField) {
+    // Inserting it at the end and using CSS to handle order to prevent disrupting i-X field helpers
+    recurrField.parentElement?.insertAdjacentElement('beforeend', upsell);
+  }
 };
 ;// ./src/index.ts
  // Uses ENGrid via NPM
@@ -23995,13 +24003,6 @@ const customScript = function (App, EnForm) {
 
 
 
-const vgsCss = {
-  '@font-face': {
-    'font-family': 'GraphikSemiBold',
-    'src': `url('https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10146/Graphik-Semibold-Web.woff')`,
-    'font-display': 'swap'
-  }
-};
 const options = {
   applePay: false,
   CapitalizeFields: true,
@@ -24013,15 +24014,10 @@ const options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
-  VGS: {
-    "transaction.ccnumber": {
-      css: vgsCss
-    },
-    "transaction.ccvv": {
-      css: vgsCss
-    }
+  Debug: App.getUrlParameter("debug") === "true",
+  Placeholders: {
+    ".en__field--donationAmt.en__field--withOther .en__field__input--other": "Custom Amount"
   },
-  Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency, App);

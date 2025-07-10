@@ -157,19 +157,6 @@
     var(--spacing_lg);
 }
 
-h2 {
-  margin-top: calc(2rem * var(--scale-down_80pct));
-}
-
-h3 {
-  border-left: none !important;
-  padding-left: none !important;
-
-  &.section-header {
-    color: #000;
-  }
-}
-
 [data-engrid-theme="spcai"] {
   /* Hide NPCA unused sections */
   .page-alert,
@@ -623,6 +610,19 @@ h3 {
 
     .live-giving-amount {
       font-weight: 600;
+    }
+  }
+
+  h2 {
+    margin-top: calc(2rem * var(--scale-down_80pct));
+  }
+
+  h3 {
+    border-left: none !important;
+    padding-left: none !important;
+
+    &.section-header {
+      color: #000;
     }
   }
 

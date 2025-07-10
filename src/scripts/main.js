@@ -73,7 +73,7 @@ export const customScript = function (App, EnForm) {
 
       if (input) {
         const placeholder =
-          index === 4 || index === 7 ? "Enter Other Amount" : "Other";
+          index === 4 || index === 7 ? "Custom Amount" : "Custom Amount";
 
         // Set initial placeholder
         input.placeholder = placeholder;
@@ -182,4 +182,13 @@ export const customScript = function (App, EnForm) {
     // );
     setupPhoneOptInCheckbox();
   }
+
+  // Add upsell message below the recurring selector
+  const upsell = document.querySelector('.upsell-message');
+  const recurrField = document.querySelector('.en__field--recurrfreq');
+  if (upsell && recurrField) {
+    // Inserting it at the end and using CSS to handle order to prevent disrupting i-X field helpers
+    recurrField.parentElement?.insertAdjacentElement('beforeend', upsell);
+  }
+
 };
