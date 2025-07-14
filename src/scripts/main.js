@@ -25,21 +25,6 @@ export const customScript = function (App, EnForm) {
     }
   };
 
-  // Set specific placeholders
-  const creditCardField = document.querySelector(
-    'input[name="supporter.creditCardHolderName"]'
-  );
-  if (creditCardField) {
-    creditCardField.setAttribute("placeholder", "Card Holder Name");
-  }
-
-  const accountHolderField = document.querySelector(
-    'input[name="supporter.NOT_TAGGED_79"]'
-  );
-  if (accountHolderField) {
-    accountHolderField.setAttribute("placeholder", "Account Holder's Name");
-  }
-
   // Update required fields
   const fields = document.querySelectorAll(
     "input[placeholder], textarea[placeholder]"
@@ -51,14 +36,6 @@ export const customScript = function (App, EnForm) {
     const observer = new MutationObserver(() => updatePlaceholder(field));
     observer.observe(field, observerConfig);
   });
-
-  // Add placeholder to the Mobile Phone Field
-  let enFieldMobilePhone = document.querySelectorAll(
-    "input#en__field_supporter_phoneNumber2"
-  )[0];
-  if (enFieldMobilePhone) {
-    enFieldMobilePhone.placeholder = "Mobile / Phone (Optional)";
-  }
 
   // Function to update placeholders dynamically
   function updatePlaceholders() {
@@ -190,5 +167,4 @@ export const customScript = function (App, EnForm) {
     // Inserting it at the end and using CSS to handle order to prevent disrupting i-X field helpers
     recurrField.parentElement?.insertAdjacentElement('beforeend', upsell);
   }
-
 };

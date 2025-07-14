@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, July 14, 2025 @ 09:34:18 ET
+ *  Date: Monday, July 14, 2025 @ 09:56:29 ET
  *  By: michael
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.7
@@ -23858,16 +23858,6 @@ const customScript = function (App, EnForm) {
     }
   };
 
-  // Set specific placeholders
-  const creditCardField = document.querySelector('input[name="supporter.creditCardHolderName"]');
-  if (creditCardField) {
-    creditCardField.setAttribute("placeholder", "Card Holder Name");
-  }
-  const accountHolderField = document.querySelector('input[name="supporter.NOT_TAGGED_79"]');
-  if (accountHolderField) {
-    accountHolderField.setAttribute("placeholder", "Account Holder's Name");
-  }
-
   // Update required fields
   const fields = document.querySelectorAll("input[placeholder], textarea[placeholder]");
   fields.forEach(field => {
@@ -23877,12 +23867,6 @@ const customScript = function (App, EnForm) {
     const observer = new MutationObserver(() => updatePlaceholder(field));
     observer.observe(field, observerConfig);
   });
-
-  // Add placeholder to the Mobile Phone Field
-  let enFieldMobilePhone = document.querySelectorAll("input#en__field_supporter_phoneNumber2")[0];
-  if (enFieldMobilePhone) {
-    enFieldMobilePhone.placeholder = "Mobile / Phone (Optional)";
-  }
 
   // Function to update placeholders dynamically
   function updatePlaceholders() {
@@ -24016,7 +24000,8 @@ const options = {
   ProgressBar: true,
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
-    ".en__field--donationAmt.en__field--withOther .en__field__input--other": "Custom Amount"
+    ".en__field--donationAmt.en__field--withOther .en__field__input--other": "Custom Amount",
+    "input#en__field_supporter_phoneNumber2": "Phone Number (Optional)"
   },
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;

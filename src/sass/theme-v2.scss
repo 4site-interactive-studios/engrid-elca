@@ -218,11 +218,9 @@
       }
     }
 
+    .en__errorHeader,
     .en__errorList {
-      z-index: 100;
-      position: relative;
       max-width: $leftleft1col_body-column_max-width;
-      padding: 0 10px;
     }
 
     .content-header {

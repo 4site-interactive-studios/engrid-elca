@@ -25,6 +25,7 @@ const options: Options = {
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
     ".en__field--donationAmt.en__field--withOther .en__field__input--other": "Custom Amount",
+    "input#en__field_supporter_phoneNumber2": "Phone Number (Optional)",
   },
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
