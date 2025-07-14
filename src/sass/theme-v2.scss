@@ -17,6 +17,7 @@
   --engrid__body_box-shadow: none;
   --engrid__content_background-color: var(--color_ivory);
   --engrid__body_background-color: var(--color_ivory);
+  --engrid__page_background-color: var(--color_ivory);
 
   // TYPOGRAPHY
   --default_color: var(--color_navy);
@@ -232,7 +233,7 @@
     }
 
     .content-footer {
-      --default_color: var(--color_white);
+      color: var(--color_white);
       grid-column: bc;
       text-align: center;
       position: relative;
@@ -251,6 +252,42 @@
         right: 0;
         top: -128px;
         width: 100%;
+      }
+
+      .footer-logo {
+        img {
+          margin-top: -12px;
+          width: 205px;
+        }
+      }
+
+      .footer-links {
+        margin-top: 25px;
+        margin-bottom: 20px;
+
+        a {
+          text-decoration: none;
+          font-size: 16px;
+          text-align: center;
+          position: relative;
+        }
+
+        a:not(:last-child) {
+          margin-right: 36px;
+        }
+
+        a:not(:last-child):after {
+          content: "|";
+          font-weight: 700;
+          font-size: 24px;
+          position: absolute;
+          top: -10px;
+          right: -28px;
+        }
+      }
+
+      p {
+        font-size: 12px;
       }
     }
 
@@ -532,7 +569,6 @@
       color: transparent !important;
     }
 
-
     .tippy-box {
       background-color: var(--color_navy);
       color: var(--color_white);
@@ -550,6 +586,33 @@
       .tippy-arrow::before {
         display: none;
       }
+    }
+
+    .body-footer-content {
+      margin-top: 35px;
+      margin-bottom: 65px;
+    }
+
+    .certificates {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 100px;
+        width: auto;
+        margin: 0 10px;
+      }
+    }
+
+    .page-backgroundImage figattribution {
+      border-radius: 50%;
+      height: 36px;
+      width: 36px;
+      right: 0;
+      left: auto;
+      text-align: center;
+      line-height: 34px;
     }
 
     @media screen and (min-width: $leftleft1col_content-column_min-width) {
@@ -570,50 +633,15 @@
             background-color: var(--color_white);
             background-repeat: no-repeat;
           }
-
-          figattribution {
-            border-radius: 50%;
-            height: 36px;
-            width: 36px;
-            right: 0;
-            left: auto;
-            text-align: center;
-            line-height: 34px;
-          }
         }
       }
     }
 
     @media screen and (max-width: $leftleft1col_content-column_min-width_minus-1px) {
-      #engrid > .en__component--advrow,
-      form > .en__component--advrow {
-        grid-template-rows:
-                [page-start page-alert-start] min-content
-                [page-alert-end body-banner-start] min-content
-                [body-banner-end body-bannerOverlay-start] min-content
-                [body-bannerOverlay-end content-header-start] min-content
-                [content-header-end body-headerOutside-start] min-content
-                [body-headerOutside-end body-header-start] min-content
-                [body-header-end body-title-start] min-content
-                [body-title-end body-top-start] min-content
-                [body-top-end body-side-start] min-content
-                [body-side-end body-main-start] min-content
-                [body-main-end body-bottom-start] min-content
-                [body-bottom-end body-footer-start] min-content
-                [body-footer-end body-footerOutside-start] min-content
-                [body-footerOutside-end content-footerSpacer-start] minmax(0, 1fr)
-                [content-footerSpacer-end content-preFooter-start] min-content
-                [content-preFooter-end content-footer-start] min-content
-                [content-footer-end page-backgroundImage-start] min-content
-                [page-backgroundImage-end page-backgroundImageOverlay-start] min-content
-                [page-backgroundImageOverlay-end page-end page-customCode-start] min-content
-                [page-customCode-end];
-      }
-
       &[data-replace-banner-with-background="if-banner-empty"][data-engrid-body-banner="empty"][data-engrid-page-background="image"] {
         .page-backgroundImage {
-          margin: 8px 8px 0;
-          border-radius: 10px;
+          margin: 30px 0 0;
+          z-index: 1!important;
 
           figure.media-with-attribution {
             position: static!important;
@@ -621,23 +649,13 @@
             background-image: none;
             aspect-ratio: initial;
           }
-
-          //figattribution {
-          //  text-align: left;
-          //  left: 0;
-          //  right: auto;
-          //  margin: 0 0 5px 5px;
-          //  font-size: 12px;
-          //  border-radius: 24px;
-          //}
         }
       }
-    }
 
-    @media screen
-    and (min-width: $leftleft1col_body-column_max-width)
-    and (max-width: $leftleft1col_content-column_min-width_minus-1px) {
-      //--engrid__page_background-color: var(--color_light-blue);
+      .tippy-box {
+        min-width: 0!important;
+        max-width: calc(100vw - 75px)!important;
+      }
     }
 
     @media screen and (max-width: $leftleft1col_body-column_max-width) {
@@ -670,10 +688,23 @@
         font-size: 18px;
       }
 
-      &[data-replace-banner-with-background="if-banner-empty"][data-engrid-body-banner="empty"][data-engrid-page-background="image"] {
-        .page-backgroundImage {
-          margin: 0;
-          border-radius: 0;
+      .content-footer {
+        .footer-links {
+          margin-top: 25px;
+          margin-bottom: 20px;
+
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          a:not(:last-child) {
+            margin-right: 0;
+            margin-bottom: 10px;
+          }
+
+          a:not(:last-child):after {
+            display: none;
+          }
         }
       }
     }
