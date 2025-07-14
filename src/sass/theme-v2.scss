@@ -669,6 +669,7 @@
       --engrid__body-title_margin: 0;
       --engrid__body-top_margin: 0;
       --recurring-frequency__button_font-size: 24px;
+      --submit__button_font-size: 26px;
       --donation-amount__button_count: 2;
 
       .en__field--donationAmt .en__field__element {
@@ -686,6 +687,10 @@
 
       .en__field--give-by-select .en__field__item.paypaltouch span {
         font-size: 18px;
+      }
+
+      .upsell-message .recurring-frequency-y-show {
+        width: auto;
       }
 
       .content-footer {
