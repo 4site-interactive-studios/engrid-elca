@@ -432,8 +432,10 @@
       }
     }
 
-    &:not([data-engrid-js-loading]) .upsell-message {
-      display: none;
+    &:not(#en__pagebuilder) {
+      &:not([data-engrid-js-loading]) .upsell-message {
+        display: none;
+      }
     }
 
     .upsell-message {

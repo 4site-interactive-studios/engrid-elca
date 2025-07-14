@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, July 14, 2025 @ 08:42:20 ET
+ *  Date: Monday, July 14, 2025 @ 09:34:18 ET
  *  By: michael
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.7
@@ -8861,7 +8861,7 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .insert-upsell-message .upsell-message{
   order:2;
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]:not([data-engrid-js-loading]) .upsell-message{
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]:not(#en__pagebuilder):not([data-engrid-js-loading]) .upsell-message{
   display:none;
 }
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .upsell-message{
