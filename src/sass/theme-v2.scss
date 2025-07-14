@@ -139,9 +139,11 @@
   // GIVE BY SELECT:HOVER
   --give-by-select__button_background-color_hover: var(--color_navy);
   --give-by-select__button_border-color_hover: var(--color_navy);
+  --give-by-select__button_color_hover: var(--color_white);
   // GIVE BY SELECT:CHECKED
   --give-by-select__button_background-color_checked: var(--color_navy);
   --give-by-select__button_border-color_checked: var(--color_navy);
+  --give-by-select__button_color_checked: var(--color_white);
 
   // DONATE BUTTONS
   --donation-amount__button_font-size: 40px;
@@ -207,7 +209,6 @@
       .body-bannerOverlay,
       .body-banner,
       .body-bottom,
-      .body-footer,
       .body-footerOutside,
       .content-footerSpacer,
       .content-preFooter,
@@ -454,36 +455,28 @@
     .en__field--give-by-select {
       .en__field__item {
         > label {
-          height: 80px;
+          height: 60px;
           align-items: center;
           flex-wrap: nowrap;
-        }
 
-        &.paypaltouch {
           img {
-            height: 24px;
+            height: 32px;
             width: auto;
             margin: 0;
           }
+        }
 
-          .venmo-logo {
-            height: 17px;
-          }
-
-          span {
-            margin: 0 15px;
+        &.paypaltouch {
+          .venmo {
+            margin-left: 15px;
+            height: 22px;
+            margin-top: 6px;
           }
         }
 
         &.stripedigitalwallet {
-          img {
-            height: 24px;
-            width: auto;
-            margin: 0;
-          }
-
-          .gpay-1 {
-            height: 20px;
+          .google-pay-logo {
+            height: 27px;
             margin-bottom: 5px;
             margin-right: 5px;
           }
@@ -493,8 +486,8 @@
           }
         }
 
-        &:hover label img:not(.gpay-1),
-        input:checked + label img:not(.gpay-1) {
+        &:hover label img:not(.credit-card-logos):not(.google-pay-logo),
+        input:checked + label img:not(.credit-card-logos):not(.google-pay-logo) {
           filter: brightness(0) invert(1);
         }
       }

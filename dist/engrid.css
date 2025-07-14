@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, July 10, 2025 @ 16:33:58 ET
+ *  Date: Monday, July 14, 2025 @ 06:17:04 ET
  *  By: michael
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.7
@@ -8640,8 +8640,10 @@ body[data-engrid-debug]:before{
   --recurring-frequency__button_background-color_checked:var(--color_navy);
   --give-by-select__button_background-color_hover:var(--color_navy);
   --give-by-select__button_border-color_hover:var(--color_navy);
+  --give-by-select__button_color_hover:var(--color_white);
   --give-by-select__button_background-color_checked:var(--color_navy);
   --give-by-select__button_border-color_checked:var(--color_navy);
+  --give-by-select__button_color_checked:var(--color_white);
   --donation-amount__button_font-size:40px;
   --donation-amount__button_line-height:50px;
   --donation-amount__button_padding:11px 5px;
@@ -8688,7 +8690,7 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder{
   --pagebuilder__background-color:var(--color_white);
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-banner,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-bannerOverlay,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-bottom,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-footer,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-footerOutside,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-header,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-headerOutside,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .content-footerSpacer,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .content-preFooter,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .page-alert,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .page-backgroundImageOverlay{
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-banner,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-bannerOverlay,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-bottom,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-footerOutside,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-header,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .body-headerOutside,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .content-footerSpacer,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .content-preFooter,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .page-alert,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]#en__pagebuilder .page-backgroundImageOverlay{
   display:none;
 }
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__errorList{
@@ -8874,33 +8876,27 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item>label{
   align-items:center;
   flex-wrap:nowrap;
-  height:80px;
+  height:60px;
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.paypaltouch img{
-  height:24px;
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item>label img{
+  height:32px;
   margin:0;
   width:auto;
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.paypaltouch .venmo-logo{
-  height:17px;
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.paypaltouch .venmo{
+  height:22px;
+  margin-left:15px;
+  margin-top:6px;
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.paypaltouch span{
-  margin:0 15px;
-}
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.stripedigitalwallet img{
-  height:24px;
-  margin:0;
-  width:auto;
-}
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.stripedigitalwallet .gpay-1{
-  height:20px;
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.stripedigitalwallet .google-pay-logo{
+  height:27px;
   margin-bottom:5px;
   margin-right:5px;
 }
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item.stripedigitalwallet .apple-pay-logo{
   margin-left:15px;
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item input:checked+label img:not(.gpay-1),[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item:hover label img:not(.gpay-1){
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item input:checked+label img:not(.credit-card-logos):not(.google-pay-logo),[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--give-by-select .en__field__item:hover label img:not(.credit-card-logos):not(.google-pay-logo){
   filter:brightness(0) invert(1);
 }
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .gift-summary{
