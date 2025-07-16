@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, July 14, 2025 @ 10:09:14 ET
+ *  Date: Wednesday, July 16, 2025 @ 13:36:47 ET
  *  By: michael
  *  ENGrid styles: v0.22.4
- *  ENGrid scripts: v0.22.7
+ *  ENGrid scripts: v0.22.8
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -22835,7 +22835,7 @@ class FrequencyUpsell {
 }
 
 ;// ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.22.7";
+const AppVersion = "0.22.8";
 
 ;// ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
@@ -23838,138 +23838,84 @@ class DonationLightboxForm {
 }
 ;// ./src/scripts/main.js
 const customScript = function (App, EnForm) {
-  const observerConfig = {
-    attributes: true,
-    attributeFilter: ["placeholder", "aria-required"],
-    subtree: true
-  };
-  const updatePlaceholder = field => {
-    if (field.name === "transaction.donationAmt.other") {
-      return; // Exclude specific field
-    }
-    const isFieldRequired = field.required || field.getAttribute("aria-required") === "true" || field.closest(".en__component--formblock.i-required");
-    const placeholder = field.getAttribute("placeholder");
-    if (placeholder) {
-      if (isFieldRequired && !placeholder.endsWith("*")) {
-        field.setAttribute("placeholder", `${placeholder}*`);
-      } else if (!isFieldRequired && placeholder.endsWith("*")) {
-        field.setAttribute("placeholder", placeholder.slice(0, -1));
+  /*
+    * Updates the label of a field to indicate if it is required.
+    * @param {HTMLElement} field - The ".en__field" element to update.
+   */
+  function updateLabel(field) {
+    const fieldEl = field.querySelector(".en__field__input");
+    let isFieldRequired = fieldEl.required || fieldEl.getAttribute("aria-required") === "true" || field.classList.contains("en__mandatory") || fieldEl.closest(".en__component--formblock.i-required");
+    const enField = fieldEl.closest(".en__field");
+    const enForm = enField?.parentElement;
+    if (enForm) {
+      // Check if field is required based on its parent's iX-required class
+      const index = [...enForm.children].indexOf(enField);
+      if (enForm.classList.contains(`i${index + 1}-required`)) {
+        isFieldRequired = true;
+      }
+
+      // Update the label to reflect the required status
+      const labelEl = enField.querySelector(".en__field__label");
+      if (labelEl) {
+        const label = labelEl.textContent.trim();
+        if (isFieldRequired && !label.endsWith("*")) {
+          labelEl.textContent = `${label}*`;
+        } else if (!isFieldRequired && label.endsWith("*")) {
+          labelEl.textContent = label.slice(0, -1);
+        }
       }
     }
-  };
+  }
 
-  // Update required fields
-  const fields = document.querySelectorAll("input[placeholder], textarea[placeholder]");
+  // Update the label of each field based on its required status
+  const fields = document.querySelectorAll(".en__field");
   fields.forEach(field => {
-    updatePlaceholder(field);
-
-    // Observe placeholder and aria-required changes
-    const observer = new MutationObserver(() => updatePlaceholder(field));
-    observer.observe(field, observerConfig);
+    const skipFields = ["en__field--donationAmt", "en__field--recurrfreq"];
+    if ([...field.classList].some(className => skipFields.includes(className))) {
+      return;
+    }
+    updateLabel(field);
+    const observer = new MutationObserver(() => updateLabel(field));
+    observer.observe(field, {
+      childList: true,
+      subtree: true
+    });
   });
 
-  // Function to update placeholders dynamically
-  function updatePlaceholders() {
+  /*
+   * Clears and sets a placeholder for the "Other Amount" input field when it is focused or blurred.
+   */
+  function handleOtherAmtPlaceholder() {
     const donationFields = document.querySelectorAll(".en__field--donationAmt .en__field__item");
-    donationFields.forEach((field, index) => {
+    donationFields.forEach(field => {
       const input = field.querySelector("input[name='transaction.donationAmt.other']");
       if (input) {
-        const placeholder = index === 4 || index === 7 ? "Custom Amount" : "Custom Amount";
-
-        // Set initial placeholder
+        const placeholder = "Custom Amount";
         input.placeholder = placeholder;
-
-        // Use focusin to clear placeholder
         input.addEventListener("focusin", function () {
-          this.placeholder = ""; // Always clear placeholder on focus
+          this.placeholder = "";
         });
-
-        // Use focusout to restore placeholder only if value and visual content are empty
         input.addEventListener("focusout", function () {
           if (!this.value && isVisuallyEmpty(this)) {
-            this.placeholder = placeholder; // Restore only when value and pseudo-content are empty
+            this.placeholder = placeholder;
           }
         });
       }
     });
   }
-
-  // Helper function to check if input is visually empty
   function isVisuallyEmpty(input) {
     // Check if the ::before pseudo-element has visible content
     const beforeContent = window.getComputedStyle(input, "::before").getPropertyValue("content");
-    return beforeContent === "none" || beforeContent === '""' || beforeContent.trim() === ""; // Adjust based on your styles
+    return beforeContent === "none" || beforeContent === '""' || beforeContent.trim() === "";
   }
-
-  // Set up MutationObserver (same as before)
   const targetNode = document.querySelector(".en__field--donationAmt");
   if (targetNode) {
-    const observer = new MutationObserver(updatePlaceholders);
+    const observer = new MutationObserver(handleOtherAmtPlaceholder);
     observer.observe(targetNode, {
       childList: true,
       subtree: true
     });
-    updatePlaceholders();
-  }
-
-  // Function to handle mobile phone number opt-in checkbox
-  function setupPhoneOptInCheckbox() {
-    // console.log("Setting up mobile phone opt-in checkbox functionality");
-    const mobilePhoneInput = document.querySelector('input[name="supporter.phoneNumber2"]');
-    const optInCheckbox = document.querySelector('input[name="supporter.questions.829861"]');
-
-    // console.log("Mobile phone input found:", mobilePhoneInput);
-    // console.log("Mobile opt-in checkbox found:", optInCheckbox);
-
-    if (mobilePhoneInput && optInCheckbox) {
-      // Initial check when page loads
-      if (mobilePhoneInput.value && mobilePhoneInput.value.trim() !== "") {
-        // console.log("Initial mobile phone value exists, checking opt-in box");
-        optInCheckbox.checked = true;
-      } else {
-        // console.log("No initial mobile phone value, unchecking opt-in box");
-        optInCheckbox.checked = false;
-      }
-
-      // Add event listeners for input changes
-      mobilePhoneInput.addEventListener("input", function () {
-        // console.log("Mobile phone input changed:", this.value);
-        if (this.value && this.value.trim() !== "") {
-          // console.log("Setting mobile opt-in checkbox to checked");
-          optInCheckbox.checked = true;
-        } else {
-          // console.log("Setting mobile opt-in checkbox to unchecked");
-          optInCheckbox.checked = false;
-        }
-      });
-
-      // Also listen for change events (for autofill, etc.)
-      mobilePhoneInput.addEventListener("change", function () {
-        // console.log("Mobile phone input change event:", this.value);
-        if (this.value && this.value.trim() !== "") {
-          // console.log(
-          //   "Setting mobile opt-in checkbox to checked (from change event)"
-          // );
-          optInCheckbox.checked = true;
-        } else {
-          // console.log(
-          //   "Setting mobile opt-in checkbox to unchecked (from change event)"
-          // );
-          optInCheckbox.checked = false;
-        }
-      });
-    } else {
-      // console.log("Could not find mobile phone input or opt-in checkbox");
-    }
-  }
-
-  // Call the function to set up the mobile phone opt-in checkbox behavior only for multistep forms
-  // console.log("Checking if multistep form before initializing phone opt-in");
-  if (document.body.getAttribute("data-engrid-subtheme") === "multistep") {
-    // console.log(
-    //   "Multistep form detected, initializing mobile phone opt-in checkbox setup"
-    // );
-    setupPhoneOptInCheckbox();
+    handleOtherAmtPlaceholder();
   }
 
   // Add upsell message below the recurring selector
@@ -24008,7 +23954,14 @@ const options = {
     new DonationLightboxForm(DonationAmount, DonationFrequency, App);
     customScript(App, en_form_EnForm);
   },
-  onResize: () => App.log("Starter Theme Window Resized")
+  onResize: () => App.log("Starter Theme Window Resized"),
+  VGS: {
+    "transaction.ccnumber": {
+      showCardIcon: {
+        right: '20px'
+      }
+    }
+  }
 };
 new App(options);
 })();

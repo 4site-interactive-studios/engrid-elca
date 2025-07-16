@@ -68,7 +68,7 @@
   --input_border-color: var(--color_navy);
   --input_border-radius: 4px;
   --input_box-shadow: none;
-  --input_padding: 16px 24px;
+  --input_padding: 16px 20px;
 
   // INPUT:FOCUS
   // INPUT:HOVER
@@ -132,6 +132,7 @@
 
   // RECURRING FREQUENCY
   --recurring-frequency__button_font-size: 36px;
+  --recurring-frequency__button_padding: 7px 12px 9px;
   // RECURRING FREQUENCY:CHECKED
   --recurring-frequency__button_color_checked: var(--color_white);
   --recurring-frequency__button_border-color_checked: var(--color_navy);
@@ -149,7 +150,7 @@
   // DONATE BUTTONS
   --donation-amount__button_font-size: 40px;
   --donation-amount__button_line-height: 50px;
-  --donation-amount__button_padding: 11px 5px;
+  --donation-amount__button_padding: 10px 5px 14px;
   // DONATE BUTTONS:CHECKED
   --donation-amount__button_color_checked: var(--color_white);
   --donation-amount__button_border-color_checked: var(--color_navy);
@@ -174,6 +175,7 @@
   --media-attribution__font-weight: 700;
   --media-attribution__padding: 0;
   --media-attribution__margin: 17px;
+  --background-image-banner__mobile-height: 500px;
 
   // DONATION PAGE
   --give-monthly-donation-amount-appended-label: "/mo";
@@ -225,7 +227,7 @@
 
     .content-header {
       grid-column: bc;
-      p:has(.header-logo) {
+      p {
         margin: 0;
       }
     }
@@ -335,6 +337,7 @@
           display: flex;
           margin-right: 10px;
           background-color: inherit;
+          margin-top: 5px;
         }
 
         input[value="MONTHLY"]:checked + label:before {
@@ -615,6 +618,14 @@
       line-height: 34px;
     }
 
+    select {
+      appearance: none;
+      background-image: url('data:image/svg+xml,<svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.00049L10 10.0005L19 1.00049" stroke="%23163F58" stroke-width="2"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right center;
+      background-size: 18px;
+    }
+
     @media screen and (min-width: $leftleft1col_content-column_min-width) {
       // Background image positioning
       &:not(#en__pagebuilder) {
@@ -649,6 +660,13 @@
             background-image: none;
             aspect-ratio: initial;
           }
+
+         > .en__component--codeblock {
+           max-height: var(--background-image-banner__mobile-height);
+           display: flex;
+           align-items: center;
+           overflow: hidden;
+         }
         }
       }
 

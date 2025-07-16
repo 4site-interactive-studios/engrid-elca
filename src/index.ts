@@ -33,5 +33,12 @@ const options: Options = {
     customScript(App, EnForm);
   },
   onResize: () => App.log("Starter Theme Window Resized"),
+  VGS: {
+    "transaction.ccnumber": {
+      showCardIcon: {
+        right: '20px',
+      },
+    }
+  }
 };
 new App(options);
