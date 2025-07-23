@@ -3,10 +3,10 @@
   -webkit-font-smoothing: antialiased;
 
   // COLORS
-  --color_navy: #163F58;
-  --color_red: #E11F28;
-  --color_dark-gray: #5C5D5F;
-  --color_ivory: #FEFBFB;
+  --color_navy: #163f58;
+  --color_red: #e11f28;
+  --color_dark-gray: #5c5d5f;
+  --color_ivory: #fefbfb;
   --color_white: #ffffff;
   --color_black: #000000;
 
@@ -24,9 +24,11 @@
   --default_font-size: 20px;
   --default_font-weight: 400;
   --default_line-height: 1.6;
-  --default_font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --default_font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   --h1_font-family: "Oswald", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --input_font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --input_font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   --button_font-family: "Oswald", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   // HEADERS
@@ -375,7 +377,7 @@
             }
 
             &:after {
-              font-size: .55em;
+              font-size: 0.55em;
               margin-left: 2px;
               opacity: 1;
               padding-top: 10px;
@@ -415,7 +417,6 @@
             color: var(--donation-amount__button_color_checked);
           }
         }
-
       }
     }
 
@@ -485,9 +486,9 @@
 
       .click-to-expand-text-wrapper {
         mask-image: linear-gradient(
-            to bottom,
-            #000 50%,
-            #fff0 calc(100% - var(--click-to-expand__cta-image_height) - 13px)
+          to bottom,
+          #000 50%,
+          #fff0 calc(100% - var(--click-to-expand__cta-image_height) - 13px)
         );
       }
     }
@@ -527,7 +528,9 @@
         }
 
         &:hover label img:not(.credit-card-logos):not(.google-pay-logo),
-        input:checked + label img:not(.credit-card-logos):not(.google-pay-logo) {
+        input:checked
+          + label
+          img:not(.credit-card-logos):not(.google-pay-logo) {
           filter: brightness(0) invert(1);
         }
       }
@@ -560,7 +563,7 @@
       }
     }
 
-    [class*=validationFail]:not(.has-focus):not(.has-value) {
+    [class*="validationFail"]:not(.has-focus):not(.has-value) {
       --input_placeholder-color: var(--error__color);
     }
 
@@ -568,7 +571,9 @@
       -webkit-box-shadow: inset 0 0 0 9999px var(--input_background-color);
     }
 
-    .en__field--donationAmt .en__field__item:not([data-engrid-currency-symbol-updated="true"]) label {
+    .en__field--donationAmt
+      .en__field__item:not([data-engrid-currency-symbol-updated="true"])
+      label {
       color: transparent !important;
     }
 
@@ -652,27 +657,27 @@
       &[data-replace-banner-with-background="if-banner-empty"][data-engrid-body-banner="empty"][data-engrid-page-background="image"] {
         .page-backgroundImage {
           margin: 30px 0 0;
-          z-index: 1!important;
+          z-index: 1 !important;
 
           figure.media-with-attribution {
-            position: static!important;
+            position: static !important;
             height: auto;
             background-image: none;
             aspect-ratio: initial;
           }
 
-         > .en__component--codeblock {
-           max-height: var(--background-image-banner__mobile-height);
-           display: flex;
-           align-items: center;
-           overflow: hidden;
-         }
+          > .en__component--codeblock {
+            max-height: var(--background-image-banner__mobile-height);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+          }
         }
       }
 
       .tippy-box {
-        min-width: 0!important;
-        max-width: calc(100vw - 75px)!important;
+        min-width: 0 !important;
+        max-width: calc(100vw - 75px) !important;
       }
     }
 
@@ -731,5 +736,164 @@
         }
       }
     }
+  }
+  // ECARD
+  // Custom property for ecard thumbnail border width
+  --ecard_thumnail-border-width: 5px;
+
+  // Prevents modals like the eCard preview modal from being hidden behind the header and footer
+  &[data-ecard-preview="visible"]:not(#en__pagebuilder):not(.freeze)
+    .content-footer,
+  &[data-ecard-preview="visible"]:not(#en__pagebuilder):not(.freeze)
+    .content-footerSpacer,
+  &[data-ecard-preview="visible"]:not(#en__pagebuilder):not(.freeze)
+    .content-header,
+  &[data-ecard-preview="visible"]:not(#en__pagebuilder):not(.freeze)
+    .content-preFooter {
+    z-index: 3;
+  }
+
+  // Hide customize ecard section when not e-card notification type is selected
+  &:not(#en__pagebuilder):not([data-engrid-debug])
+    .customize-ecard:not([notify-selection="e-card" i]) {
+    display: none;
+  }
+
+  // Put the single recipient ecard fields on two lines
+  .en__ecardrecipients__detail {
+    flex-direction: column;
+  }
+
+  .en__ecardrecipients__email,
+  .en__ecardrecipients__name {
+    width: 100% !important;
+    margin-bottom: var(--fields_spacing-block);
+  }
+
+  // eCard Recipient Name and Email fields
+  .en__ecardrecipients__name input,
+  .en__ecardrecipients__email input {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: var(--fields_spacing-block);
+    margin-left: 0;
+    padding: var(--input_padding);
+    width: 100%;
+  }
+
+  // Hide the button until it gets moved outside and into its own wrapper
+  .en__ecardrecipients__email button {
+    display: none;
+  }
+
+  // Hide the Recipient List until there a recipient added to it
+  .en__ecardrecipients__list:empty {
+    display: none;
+  }
+
+  // Limit ecards to a single recipient (commented out)
+  // .en__ecardrecipients__email button,
+  // .en__ecardrecipients__list {
+  //   display: none;
+  // }
+
+  .en__ecarditems__button {
+    position: static;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    height: auto;
+    margin-top: 0 !important;
+    width: auto;
+    font-family: var(--donation-amount__button_font-family);
+    padding: var(--donation-amount__button_padding) !important;
+  }
+
+  .en__ecardrecipients__list {
+    margin: 0px -0.5rem 0px -0.5rem;
+  }
+
+  // Commented out margin adjustments
+  // .en__ecardrecipients__futureDelivery {
+  //   margin-bottom: 40px;
+  // }
+
+  // .en__ecardrecipients {
+  //   margin-bottom: 40px;
+  // }
+
+  .ecardrecipient__remove {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+  }
+
+  .en__ecardrecipients__recipient {
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    width: 100%;
+  }
+
+  .en__ecardrecipients__recipient:hover {
+    background-color: var(--button_background-color_hover);
+  }
+
+  .en__ecardrecipients__recipient input {
+    background-color: transparent;
+  }
+
+  .en__ecardrecipients__recipient .ecardrecipient__remove button {
+    margin-bottom: 0px;
+    color: var(--error__color);
+    border-radius: 100%;
+    font-family: sans-serif;
+    background: var(--error__color_faded);
+    line-height: initial;
+    font-size: 9px !important;
+    height: 18px;
+    width: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--error__color);
+    right: 0;
+  }
+
+  .en__ecardrecipients__recipient .ecardrecipient__remove {
+    width: 2rem;
+  }
+
+  .ecardrecipient__name {
+    padding-right: 1rem;
+    mask-image: linear-gradient(to right, #000 75%, #fff0 calc(100% - 1rem));
+    outline: none;
+  }
+
+  // Commented out grid layout for email field
+  // .en__ecardrecipients__email {
+  //   display: grid;
+  //   gap: 0 3rem;
+  //   grid-auto-columns: 1fr;
+  //   grid-auto-rows: 1fr;
+  //   grid-template-areas:
+  //     "ecardrecipients__email_label ecardrecipients__email_button"
+  //     "ecardrecipients__email_input ecardrecipients__email_button";
+  //   grid-template-columns: 1fr 20px;
+  //   grid-template-rows: min-content 1fr;
+
+  //   button {
+  //     grid-area: ecardrecipients__email_button;
+  //   }
+  //   label {
+  //     grid-area: ecardrecipients__email_label;
+  //   }
+  //   input {
+  //     grid-area: ecardrecipients__email_input;
+  //   }
+  // }
+
+  // Next page copy styling for ecard pages
+  .ecard-next-page-copy {
+    padding-left: min(calc(var(--fields_spacing-inline) * 12), 10vw);
+    padding-right: min(calc(var(--fields_spacing-inline) * 12), 10vw);
   }
 }

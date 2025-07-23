@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, July 16, 2025 @ 13:36:47 ET
- *  By: michael
+ *  Date: Wednesday, July 23, 2025 @ 13:10:15 ET
+ *  By: fernando
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
  *
@@ -8717,6 +8717,7 @@ body[data-engrid-debug]:before{
   --recurring-frequency__button_count:2;
   --donation-amount__button_count:3;
   --give-by-select__button_count:1;
+  --ecard_thumnail-border-width:5px;
 }
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]{
   --engrid__content-header_padding:30px 64px;
@@ -9131,6 +9132,87 @@ body[data-engrid-debug]:before{
   [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .content-footer .footer-links a:not(:last-child):after{
     display:none;
   }
+}
+[data-engrid-theme=spcai-v2][data-ecard-preview=visible]:not(#en__pagebuilder):not(.freeze) .content-footer,[data-engrid-theme=spcai-v2][data-ecard-preview=visible]:not(#en__pagebuilder):not(.freeze) .content-footerSpacer,[data-engrid-theme=spcai-v2][data-ecard-preview=visible]:not(#en__pagebuilder):not(.freeze) .content-header,[data-engrid-theme=spcai-v2][data-ecard-preview=visible]:not(#en__pagebuilder):not(.freeze) .content-preFooter{
+  z-index:3;
+}
+[data-engrid-theme=spcai-v2]:not(#en__pagebuilder):not([data-engrid-debug]) .customize-ecard:not([notify-selection=e-card i]){
+  display:none;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__detail{
+  flex-direction:column;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__email,[data-engrid-theme=spcai-v2] .en__ecardrecipients__name{
+  margin-bottom:var(--fields_spacing-block);
+  width:100% !important;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__email input,[data-engrid-theme=spcai-v2] .en__ecardrecipients__name input{
+  margin-bottom:var(--fields_spacing-block);
+  margin-left:0;
+  margin-right:0;
+  margin-top:0;
+  padding:var(--input_padding);
+  width:100%;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__email button,[data-engrid-theme=spcai-v2] .en__ecardrecipients__list:empty{
+  display:none;
+}
+[data-engrid-theme=spcai-v2] .en__ecarditems__button{
+  font-family:var(--donation-amount__button_font-family);
+  height:auto;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  margin-top:0 !important;
+  padding:var(--donation-amount__button_padding) !important;
+  position:static;
+  width:auto;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__list{
+  margin:0 -.5rem;
+}
+[data-engrid-theme=spcai-v2] .ecardrecipient__remove{
+  align-items:center;
+  display:flex;
+  justify-content:flex-end;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__recipient{
+  border-radius:5px;
+  padding:.25rem .5rem;
+  width:100%;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__recipient:hover{
+  background-color:var(--button_background-color_hover);
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__recipient input{
+  background-color:initial;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__recipient .ecardrecipient__remove button{
+  align-items:center;
+  background:var(--error__color_faded);
+  border:1px solid var(--error__color);
+  border-radius:100%;
+  color:var(--error__color);
+  display:flex;
+  font-family:sans-serif;
+  font-size:9px !important;
+  height:18px;
+  justify-content:center;
+  line-height:normal;
+  margin-bottom:0;
+  right:0;
+  width:18px;
+}
+[data-engrid-theme=spcai-v2] .en__ecardrecipients__recipient .ecardrecipient__remove{
+  width:2rem;
+}
+[data-engrid-theme=spcai-v2] .ecardrecipient__name{
+  mask-image:linear-gradient(90deg, #000 75%, #fff0 calc(100% - 1rem));
+  outline:none;
+  padding-right:1rem;
+}
+[data-engrid-theme=spcai-v2] .ecard-next-page-copy{
+  padding-left:min(var(--fields_spacing-inline) * 12, 10vw);
+  padding-right:min(var(--fields_spacing-inline) * 12, 10vw);
 }
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep]#en__pagebuilder #engrid,[data-engrid-theme=spcai][data-engrid-subtheme=multistep]:not([data-engrid-embedded]){
   margin:0 auto;
