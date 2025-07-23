@@ -740,6 +740,12 @@
   // ECARD
   // Custom property for ecard thumbnail border width
   --ecard_thumnail-border-width: 5px;
+  &[data-engrid-embedded-ecard="true"] {
+    .en__component--ecardblock h2 {
+      font-size: 20px;
+      line-height: 1.5;
+    }
+  }
 
   // Prevents modals like the eCard preview modal from being hidden behind the header and footer
   &[data-ecard-preview="visible"]:not(#en__pagebuilder):not(.freeze)
