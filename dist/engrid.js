@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, July 23, 2025 @ 13:45:00 ET
+ *  Date: Wednesday, July 23, 2025 @ 14:32:35 ET
  *  By: fernando
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
@@ -23839,8 +23839,8 @@ class DonationLightboxForm {
 ;// ./src/scripts/main.js
 const customScript = function (App, EnForm) {
   /*
-    * Updates the label of a field to indicate if it is required.
-    * @param {HTMLElement} field - The ".en__field" element to update.
+   * Updates the label of a field to indicate if it is required.
+   * @param {HTMLElement} field - The ".en__field" element to update.
    */
   function updateLabel(field) {
     const fieldEl = field.querySelector(".en__field__input");
@@ -23919,12 +23919,38 @@ const customScript = function (App, EnForm) {
   }
 
   // Add upsell message below the recurring selector
-  const upsell = document.querySelector('.upsell-message');
-  const recurrField = document.querySelector('.en__field--recurrfreq');
+  const upsell = document.querySelector(".upsell-message");
+  const recurrField = document.querySelector(".en__field--recurrfreq");
   if (upsell && recurrField) {
     // Inserting it at the end and using CSS to handle order to prevent disrupting i-X field helpers
-    recurrField.parentElement?.insertAdjacentElement('beforeend', upsell);
+    recurrField.parentElement?.insertAdjacentElement("beforeend", upsell);
   }
+
+  /**
+   * Function to rearrange eCard related elements on the page.
+   * Moves .en__ecarditems__action to come after .en__ecardmessage and
+   * moves .en__ecardrecipients__futureDelivery to come after .en__ecardrecipients.
+   */
+  function rearrangeEcardElements() {
+    // Get the elements
+    const ecardItemsAction = document.querySelector(".en__ecarditems__action");
+    const ecardMessage = document.querySelector(".en__ecardmessage");
+    const ecardRecipientsFutureDelivery = document.querySelector(".en__ecardrecipients__futureDelivery");
+    const ecardRecipients = document.querySelector(".en__ecardrecipients");
+
+    // Move .en__ecarditems__action so it comes after .en__ecardmessage
+    if (ecardItemsAction && ecardMessage) {
+      ecardMessage.insertAdjacentElement("afterend", ecardItemsAction);
+    }
+
+    // Move .en__ecardrecipients__futureDelivery so it comes after .en__ecardrecipients
+    if (ecardRecipientsFutureDelivery && ecardRecipients) {
+      ecardRecipients.insertAdjacentElement("afterend", ecardRecipientsFutureDelivery);
+    }
+  }
+
+  // Call the function
+  rearrangeEcardElements();
 };
 ;// ./src/index.ts
  // Uses ENGrid via NPM

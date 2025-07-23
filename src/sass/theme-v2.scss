@@ -811,7 +811,8 @@
     margin-top: 0 !important;
     width: auto;
     font-family: var(--donation-amount__button_font-family);
-    padding: var(--donation-amount__button_padding) !important;
+    padding: 15px !important;
+    line-height: 1 !important;
   }
 
   .en__ecardrecipients__list {

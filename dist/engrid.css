@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, July 23, 2025 @ 13:45:00 ET
+ *  Date: Wednesday, July 23, 2025 @ 14:32:35 ET
  *  By: fernando
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
@@ -9164,10 +9164,11 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2] .en__ecarditems__button{
   font-family:var(--donation-amount__button_font-family);
   height:auto;
+  line-height:1 !important;
   margin-left:0 !important;
   margin-right:0 !important;
   margin-top:0 !important;
-  padding:var(--donation-amount__button_padding) !important;
+  padding:15px !important;
   position:static;
   width:auto;
 }
