@@ -571,10 +571,19 @@
       -webkit-box-shadow: inset 0 0 0 9999px var(--input_background-color);
     }
 
-    .en__field--donationAmt
+    &:not(#en__pagebuilder)
+      .en__field--donationAmt
       .en__field__item:not([data-engrid-currency-symbol-updated="true"])
       label {
       color: transparent !important;
+    }
+
+    .en__field--ccnumber,
+    .en__field--ccexpire,
+    .en__field--ccvv {
+      .en__field__input--vgs {
+        height: 64px;
+      }
     }
 
     .tippy-box {
@@ -902,5 +911,23 @@
   .ecard-next-page-copy {
     padding-left: min(calc(var(--fields_spacing-inline) * 12), 10vw);
     padding-right: min(calc(var(--fields_spacing-inline) * 12), 10vw);
+  }
+
+  .en__component--socialshareblock {
+    &:before {
+      content: none !important;
+    }
+
+    .en__socialShares a {
+      width: 35px !important;
+      height: 35px !important;
+
+      img {
+        max-width: 35px;
+        filter: grayscale(1) contrast(100) brightness(1);
+        mix-blend-mode: multiply;
+        margin: 0;
+      }
+    }
   }
 }

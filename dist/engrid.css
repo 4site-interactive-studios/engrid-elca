@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, July 23, 2025 @ 14:32:35 ET
- *  By: fernando
+ *  Date: Thursday, July 24, 2025 @ 17:20:22 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
  *
@@ -9001,8 +9001,11 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] input:-webkit-autofill{
   -webkit-box-shadow:inset 0 0 0 9999px var(--input_background-color);
 }
-[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--donationAmt .en__field__item:not([data-engrid-currency-symbol-updated=true]) label{
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col]:not(#en__pagebuilder) .en__field--donationAmt .en__field__item:not([data-engrid-currency-symbol-updated=true]) label{
   color:#0000 !important;
+}
+[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--ccexpire .en__field__input--vgs,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--ccnumber .en__field__input--vgs,[data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .en__field--ccvv .en__field__input--vgs{
+  height:64px;
 }
 [data-engrid-theme=spcai-v2][data-engrid-layout=leftleft1col] .tippy-box{
   background-color:var(--color_navy);
@@ -9218,6 +9221,19 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2] .ecard-next-page-copy{
   padding-left:min(var(--fields_spacing-inline) * 12, 10vw);
   padding-right:min(var(--fields_spacing-inline) * 12, 10vw);
+}
+[data-engrid-theme=spcai-v2] .en__component--socialshareblock:before{
+  content:none !important;
+}
+[data-engrid-theme=spcai-v2] .en__component--socialshareblock .en__socialShares a{
+  height:35px !important;
+  width:35px !important;
+}
+[data-engrid-theme=spcai-v2] .en__component--socialshareblock .en__socialShares a img{
+  filter:grayscale(1) contrast(100) brightness(1);
+  margin:0;
+  max-width:35px;
+  mix-blend-mode:multiply;
 }
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep]#en__pagebuilder #engrid,[data-engrid-theme=spcai][data-engrid-subtheme=multistep]:not([data-engrid-embedded]){
   margin:0 auto;
