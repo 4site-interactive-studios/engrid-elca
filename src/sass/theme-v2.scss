@@ -812,6 +812,10 @@
   //   display: none;
   // }
 
+  .en__ecarditems h2 {
+    margin-top: 0;
+  }
+
   .en__ecarditems__button {
     position: static;
     margin-left: 0 !important;
@@ -919,11 +923,11 @@
     }
 
     .en__socialShares a {
-      width: 35px !important;
-      height: 35px !important;
+      width: 55px !important;
+      height: 55px !important;
 
       img {
-        max-width: 35px;
+        max-width: 55px;
         filter: grayscale(1) contrast(100) brightness(1);
         mix-blend-mode: multiply;
         margin: 0;
@@ -934,5 +938,10 @@
   .enWidget--progressBar {
     padding-left: 0;
     padding-right: 0;
+  }
+  .en__component--copyblock {
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 }

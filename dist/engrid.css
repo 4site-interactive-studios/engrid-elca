@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, July 24, 2025 @ 17:39:45 ET
- *  By: bryancasler
+ *  Date: Friday, July 25, 2025 @ 23:35:46 ET
+ *  By: fernando
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
  *
@@ -9164,6 +9164,9 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai-v2] .en__ecardrecipients__email button,[data-engrid-theme=spcai-v2] .en__ecardrecipients__list:empty{
   display:none;
 }
+[data-engrid-theme=spcai-v2] .en__ecarditems h2{
+  margin-top:0;
+}
 [data-engrid-theme=spcai-v2] .en__ecarditems__button{
   font-family:var(--donation-amount__button_font-family);
   height:auto;
@@ -9226,18 +9229,21 @@ body[data-engrid-debug]:before{
   content:none !important;
 }
 [data-engrid-theme=spcai-v2] .en__component--socialshareblock .en__socialShares a{
-  height:35px !important;
-  width:35px !important;
+  height:55px !important;
+  width:55px !important;
 }
 [data-engrid-theme=spcai-v2] .en__component--socialshareblock .en__socialShares a img{
   filter:grayscale(1) contrast(100) brightness(1);
   margin:0;
-  max-width:35px;
+  max-width:55px;
   mix-blend-mode:multiply;
 }
 [data-engrid-theme=spcai-v2] .enWidget--progressBar{
   padding-left:0;
   padding-right:0;
+}
+[data-engrid-theme=spcai-v2] .en__component--copyblock p:last-child{
+  margin-bottom:0;
 }
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep]#en__pagebuilder #engrid,[data-engrid-theme=spcai][data-engrid-subtheme=multistep]:not([data-engrid-embedded]){
   margin:0 auto;
