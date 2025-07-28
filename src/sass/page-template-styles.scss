@@ -679,7 +679,7 @@
             right: 0;
             width: calc(100% - $leftleft1col_body-column_max-width);
             height: 100%;
-            background-position: center !important;
+            // background-position: center;
             background-color: var(--color_white);
             background-repeat: no-repeat;
           }
