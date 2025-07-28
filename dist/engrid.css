@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, July 28, 2025 @ 12:19:02 ET
+ *  Date: Monday, July 28, 2025 @ 12:45:14 ET
  *  By: bryancasler
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
@@ -8435,6 +8435,10 @@ body[data-engrid-debug]:before{
   --input_padding:8px 10px;
   --input_font-size:16px;
 }
+[data-engrid-theme=spcai][data-engrid-subtheme=multistep] #engrid{
+  margin-bottom:2rem;
+  margin-top:2rem;
+}
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep] .en__component--copyblock+.en__component--formblock{
   margin-top:20px;
 }
@@ -8604,7 +8608,7 @@ body[data-engrid-debug]:before{
   width:350px;
 }
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep][data-engrid-embedded] form.en__component>.en__component>.en__component{
-  height:100%;
+  height:calc(100% - 4rem);
 }
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep][data-engrid-embedded] form.en__component .en__component--row>.en__component--column .en__component:first-of-type>:first-child{
   margin-top:0;
@@ -8854,7 +8858,11 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=spcai][data-engrid-subtheme=multistep] .transaction-fee-opt-in{
   margin-top:2rem;
 }
-[data-engrid-theme=spcai][data-engrid-subtheme=multistep] .en__component--row--1:first-of-type .en__component--copyblock:first-of-type h1,[data-engrid-theme=spcai][data-engrid-subtheme=multistep] .en__component--row--1:first-of-type .en__component--copyblock:first-of-type h2{
+[data-engrid-theme=spcai][data-engrid-subtheme=multistep] .en__component--row--1:first-of-type .en__component--copyblock:first-of-type h1{
+  margin-bottom:0;
+  margin-top:1rem;
+}
+[data-engrid-theme=spcai][data-engrid-subtheme=multistep] .en__component--row--1:first-of-type .en__component--copyblock:first-of-type h2{
   margin-bottom:0;
   margin-top:0;
 }
