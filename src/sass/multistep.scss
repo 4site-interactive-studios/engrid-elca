@@ -1,4 +1,13 @@
 [data-engrid-theme="spcai"][data-engrid-subtheme="multistep"] {
+  --default_font-size: 18px;
+  --label_font-size: 16px;
+  --input_padding: 8px 10px;
+  --input_font-size: 16px;
+
+  .en__component--copyblock + .en__component--formblock {
+    margin-top: 20px;
+  }
+
   //     --fields_spacing-inline: 5px;
   //     --fields_spacing-block: 4px;
   //     .body-main {
@@ -471,9 +480,9 @@
         & > .en__component {
           height: 100vh;
           width: 350px;
-          padding: 45px 40px;
+          // padding: 45px 40px;
+          padding: 0px;
           // scroll-snap-align: start;
-
           & > .en__component {
             height: 100%;
           }
@@ -870,5 +879,17 @@
 
   .transaction-fee-opt-in {
     margin-top: 2rem;
+  }
+
+  .en__component--row--1:first-of-type .en__component--copyblock:first-of-type {
+    h1,
+    h2 {
+      margin-top: 0px;
+      margin-bottom: 0px;
+
+      + p:first-of-type {
+        margin-top: 0px;
+      }
+    }
   }
 }
