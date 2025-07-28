@@ -185,9 +185,31 @@
   // DONATION PAGE
   --give-monthly-donation-amount-appended-label: "/mo";
   --give-annual-donation-amount-appended-label: "/yr";
-  --recurring-frequency__button_count: 2;
+  --recurring-frequency__flex-grow: 1;
   --donation-amount__button_count: 3;
   --give-by-select__button_count: 1;
+
+  &[data-engrid-visible-frequency="1"] {
+    --recurring-frequency__button_count: 1;
+  }
+
+  &[data-engrid-visible-frequency="2"] {
+    --recurring-frequency__button_count: 2;
+  }
+
+  &[data-engrid-visible-frequency="3"] {
+    --recurring-frequency__button_count: 3;
+
+    @media screen and (max-width: 575px) {
+      --recurring-frequency__button_count: 1;
+
+      // If there's an upsell message on the page...
+      // On mobile, move the monthly button to the bottom to sits with the upsell message
+      &:has(.upsell-message) .en__field__item:has(input[value="MONTHLY"]) {
+        order: 1;
+      }
+    }
+  }
 
   &[data-engrid-layout="leftleft1col"] {
     --engrid__content-header_padding: 30px 64px;

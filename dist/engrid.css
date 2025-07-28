@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, July 28, 2025 @ 12:45:14 ET
+ *  Date: Monday, July 28, 2025 @ 14:22:15 ET
  *  By: bryancasler
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.8
@@ -7897,10 +7897,27 @@ body[data-engrid-debug]:before{
   --background-image-banner__mobile-height:500px;
   --give-monthly-donation-amount-appended-label:"/mo";
   --give-annual-donation-amount-appended-label:"/yr";
-  --recurring-frequency__button_count:2;
+  --recurring-frequency__flex-grow:1;
   --donation-amount__button_count:3;
   --give-by-select__button_count:1;
   --ecard_thumnail-border-width:5px;
+}
+[data-engrid-theme=spcai][data-engrid-visible-frequency="1"]{
+  --recurring-frequency__button_count:1;
+}
+[data-engrid-theme=spcai][data-engrid-visible-frequency="2"]{
+  --recurring-frequency__button_count:2;
+}
+[data-engrid-theme=spcai][data-engrid-visible-frequency="3"]{
+  --recurring-frequency__button_count:3;
+}
+@media screen and (max-width:575px){
+  [data-engrid-theme=spcai][data-engrid-visible-frequency="3"]{
+    --recurring-frequency__button_count:1;
+  }
+  [data-engrid-theme=spcai][data-engrid-visible-frequency="3"]:has(.upsell-message) .en__field__item:has(input[value=MONTHLY]){
+    order:1;
+  }
 }
 [data-engrid-theme=spcai][data-engrid-layout=leftleft1col]{
   --engrid__content-header_padding:30px 64px;
