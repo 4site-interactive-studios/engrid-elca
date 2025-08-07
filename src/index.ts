@@ -5,7 +5,13 @@ import {
   DonationFrequency,
   EnForm,
 } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
-// import { Options, App } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+// import {
+//   Options,
+//   App,
+//   DonationAmount,
+//   DonationFrequency,
+//   EnForm,
+// } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
 
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
@@ -24,7 +30,8 @@ const options: Options = {
   ProgressBar: true,
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
-    ".en__field--donationAmt.en__field--withOther .en__field__input--other": "Custom Amount",
+    ".en__field--donationAmt.en__field--withOther .en__field__input--other":
+      "Custom Amount",
     "input#en__field_supporter_phoneNumber2": "Phone Number (Optional)",
   },
   onLoad: () => {
@@ -36,9 +43,9 @@ const options: Options = {
   VGS: {
     "transaction.ccnumber": {
       showCardIcon: {
-        right: '20px',
+        right: "20px",
       },
-    }
-  }
+    },
+  },
 };
 new App(options);
