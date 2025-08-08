@@ -23,7 +23,9 @@ export const customScript = function (App, EnForm) {
       }
 
       // Update the label to reflect the required status
-      const labelEl = enField.querySelector(".en__field__label");
+      const labelEl = enField.querySelector(
+        ".en__component--formblock:not(.give-by-select) .en__field__label"
+      );
       if (labelEl) {
         const label = labelEl.textContent.trim();
         if (isFieldRequired && !label.endsWith("*")) {

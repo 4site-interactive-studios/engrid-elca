@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, August 6, 2025 @ 23:40:10 ET
- *  By: fernando
+ *  Date: Thursday, August 7, 2025 @ 22:16:48 ET
+ *  By: 4Site
  *  ENGrid styles: v0.22.11
- *  ENGrid scripts: v0.22.11
+ *  ENGrid scripts: v0.22.12
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -17151,12 +17151,12 @@ class DataLayer {
             for (const property in pageJson) {
                 if (!Number.isNaN(pageJson[property])) {
                     dataLayerEvents.push(`EN_PAGEJSON_${property.toUpperCase()}-${pageJson[property]}`);
-                    dataLayerData[`'EN_PAGEJSON_${property.toUpperCase()}'`] =
+                    dataLayerData[`EN_PAGEJSON_${property.toUpperCase()}`] =
                         pageJson[property];
                 }
                 else {
                     dataLayerEvents.push(`EN_PAGEJSON_${property.toUpperCase()}-${this.transformJSON(pageJson[property])}`);
-                    dataLayerData[`'EN_PAGEJSON_${property.toUpperCase()}'`] =
+                    dataLayerData[`EN_PAGEJSON_${property.toUpperCase()}`] =
                         this.transformJSON(pageJson[property]);
                 }
                 dataLayerEvents.push("EN_PAGEJSON_" + property.toUpperCase());
@@ -17164,13 +17164,13 @@ class DataLayer {
             }
             if (engrid_ENGrid.getPageCount() === engrid_ENGrid.getPageNumber()) {
                 dataLayerEvents.push("EN_SUBMISSION_SUCCESS_" + pageJson.pageType.toUpperCase());
-                dataLayerData[`'EN_SUBMISSION_SUCCESS_${pageJson.pageType.toUpperCase()}'`] = "TRUE";
+                dataLayerData[`EN_SUBMISSION_SUCCESS_${pageJson.pageType.toUpperCase()}`] = "TRUE";
             }
         }
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.forEach((value, key) => {
             dataLayerEvents.push(`EN_URLPARAM_${key.toUpperCase()}-${this.transformJSON(value)}`);
-            dataLayerData[`'EN_URLPARAM_${key.toUpperCase()}'`] =
+            dataLayerData[`EN_URLPARAM_${key.toUpperCase()}`] =
                 this.transformJSON(value);
         });
         if (engrid_ENGrid.getPageType() === "DONATION") {
@@ -17218,14 +17218,15 @@ class DataLayer {
         else {
             dataLayerEvents.push("EN_FASTFORMFILL_ALL_FAILURE");
         }
+        // Push all collected variables at once
+        if (Object.keys(dataLayerData).length > 0) {
+            dataLayerData.event = "pageJsonVariablesReady";
+            this.dataLayer.push(dataLayerData);
+        }
         // Push all collected events individually (GTM requirement)
         dataLayerEvents.forEach((event) => {
             this.dataLayer.push({ event });
         });
-        // Push all collected variables at once
-        if (Object.keys(dataLayerData).length > 0) {
-            this.dataLayer.push(dataLayerData);
-        }
         this.attachEventListeners();
     }
     onSubmit() {
@@ -23044,7 +23045,7 @@ class FrequencyUpsell {
 }
 
 ;// ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.22.11";
+const AppVersion = "0.22.12";
 
 ;// ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
@@ -24064,7 +24065,7 @@ const customScript = function (App, EnForm) {
       }
 
       // Update the label to reflect the required status
-      const labelEl = enField.querySelector(".en__field__label");
+      const labelEl = enField.querySelector(".en__component--formblock:not(.give-by-select) .en__field__label");
       if (labelEl) {
         const label = labelEl.textContent.trim();
         if (isFieldRequired && !label.endsWith("*")) {
