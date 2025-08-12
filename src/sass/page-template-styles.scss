@@ -969,4 +969,23 @@
       margin-bottom: 0;
     }
   }
+
+  #en__upsellModal__yes,
+  #en__upsellModal__no {
+    --button_font-size: 20px !important;
+  }
+
+  #en__upsellModal__yes button {
+    background-color: var(--give-by-select__button_background-color_checked);
+    border-color: var(--give-by-select__button_border-color_checked);
+    color: var(--give-by-select__button_color_checked);
+  }
+
+  #en__upsellModal__no button {
+    border: transparent;
+  }
+
+  #en__upsellModal__no button span {
+    text-decoration: underline;
+  }
 }
