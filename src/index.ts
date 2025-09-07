@@ -16,6 +16,7 @@ import {
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
+import { sendSupporterDataToTatango } from "./scripts/tatango";
 
 const options: Options = {
   applePay: false,
@@ -47,5 +48,8 @@ const options: Options = {
       },
     },
   },
+  onSubmit: () => {
+    sendSupporterDataToTatango();
+  }
 };
 new App(options);
