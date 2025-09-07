@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, August 12, 2025 @ 16:26:52 ET
- *  By: bryancasler
- *  ENGrid styles: v0.22.11
- *  ENGrid scripts: v0.22.13
+ *  Date: Sunday, September 7, 2025 @ 15:36:17 ET
+ *  By: fernando
+ *  ENGrid styles: v0.22.18
+ *  ENGrid scripts: v0.22.18
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -10736,6 +10736,7 @@ const OptionsDefaults = {
     MaxAmount: 100000,
     MinAmountMessage: "Amount must be at least $1",
     MaxAmountMessage: "Amount must be less than $100,000",
+    UseAmountValidatorFromEN: false,
     SkipToMainContentLink: true,
     SrcDefer: true,
     NeverBounceAPI: null,
@@ -10756,6 +10757,7 @@ const OptionsDefaults = {
     ENValidators: false,
     MobileCTA: false,
     CustomCurrency: false,
+    CustomPremium: false,
     VGS: false,
     PostalCodeValidator: false,
     CountryRedirect: false,
@@ -11151,6 +11153,8 @@ class DonationAmount {
                 this.amount = engrid_ENGrid.cleanAmount(otherField.value);
             });
         }
+        // Load the current amount
+        this.load();
     }
     static getInstance(radios = "transaction.donationAmt", other = "transaction.donationAmt.other") {
         if (!DonationAmount.instance) {
@@ -12357,6 +12361,8 @@ class App extends engrid_ENGrid {
         new CountryDisable();
         // Premium Gift Features
         new PremiumGift();
+        // Custom Premium filtering (frequency/amount-based visibility)
+        new CustomPremium();
         // Supporter Hub Features
         new SupporterHub();
         // Digital Wallets Features
@@ -16913,15 +16919,18 @@ class MinMaxAmount {
         var _a, _b;
         this._form = en_form_EnForm.getInstance();
         this._amount = DonationAmount.getInstance();
+        this._frequency = DonationFrequency.getInstance();
         this.minAmount = (_a = engrid_ENGrid.getOption("MinAmount")) !== null && _a !== void 0 ? _a : 1;
         this.maxAmount = (_b = engrid_ENGrid.getOption("MaxAmount")) !== null && _b !== void 0 ? _b : 100000;
         this.minAmountMessage = engrid_ENGrid.getOption("MinAmountMessage");
         this.maxAmountMessage = engrid_ENGrid.getOption("MaxAmountMessage");
+        this.enAmountValidator = null;
         this.logger = new logger_EngridLogger("MinMaxAmount", "white", "purple", "🔢");
         if (!this.shouldRun()) {
             // If we're not on a Donation Page, get out
             return;
         }
+        this.setValidationConfigFromEN();
         this._amount.onAmountChange.subscribe((s) => window.setTimeout(this.liveValidate.bind(this), 1000) // Wait 1 second for the amount to be updated
         );
         this._form.onValidate.subscribe(this.enOnValidate.bind(this));
@@ -16974,6 +16983,58 @@ class MinMaxAmount {
         }
         else {
             engrid_ENGrid.removeError(".en__field--withOther");
+        }
+    }
+    setValidationConfigFromEN() {
+        if (!engrid_ENGrid.getOption("UseAmountValidatorFromEN") ||
+            !window.EngagingNetworks.validators) {
+            this.logger.log("Not setting validation config from EN.");
+            return;
+        }
+        // Find the amount validator for the donation amount field
+        // It should be of type "AMNT" or "FAMNT" and have
+        // a componentId that matches the donation amount field.
+        this.enAmountValidator = window.EngagingNetworks.validators.find((validator) => {
+            var _a;
+            return ((validator.type === "FAMNT" || validator.type === "AMNT") &&
+                ((_a = document
+                    .querySelector(".en__field--" + validator.componentId)) === null || _a === void 0 ? void 0 : _a.classList.contains("en__field--donationAmt")));
+        });
+        if (!this.enAmountValidator || !this.enAmountValidator.format) {
+            return;
+        }
+        this.logger.log(`Detected an amount validator for donation amount on the page:`, this.enAmountValidator);
+        // Static amount validator
+        if (this.enAmountValidator.type === "AMNT") {
+            this.minAmount = Number(this.enAmountValidator.format.split("~")[0]);
+            this.maxAmount = Number(this.enAmountValidator.format.split("~")[1]);
+            this.minAmountMessage = this.enAmountValidator.errorMessage;
+            this.maxAmountMessage = this.enAmountValidator.errorMessage;
+            this.logger.log(`Setting new values - Min Amount: ${this.minAmount}, Max Amount: ${this.maxAmount}, Error Message: ${this.minAmountMessage}`);
+        }
+        // Frequency-based amount validator
+        if (this.enAmountValidator.type === "FAMNT") {
+            this._frequency.onFrequencyChange.subscribe((freq) => {
+                if (!this.enAmountValidator || !this.enAmountValidator.format)
+                    return;
+                // In the validator, "onetime" is written as "SINGLE"
+                // Validator format for FAMNT is like SINGLE:10~100000|MONTHLY:5~100000|QUARTERLY:25~100000|ANNUAL:25~100000
+                const frequency = freq === "onetime" ? "SINGLE" : freq.toUpperCase();
+                const validationRange = this.enAmountValidator.format
+                    .split("|")
+                    .find((range) => range.startsWith(frequency));
+                if (!validationRange) {
+                    this.logger.log(`No validation range found for frequency: ${frequency}`);
+                    return;
+                }
+                const amounts = validationRange.split(":")[1].split("~");
+                this.minAmount = Number(amounts[0]);
+                this.maxAmount = Number(amounts[1]);
+                this.minAmountMessage = this.enAmountValidator.errorMessage;
+                this.maxAmountMessage = this.enAmountValidator.errorMessage;
+                this.logger.log(`Frequency changed to ${frequency}, updating min and max amounts`, validationRange);
+                this.logger.log(`Setting new values - Min Amount: ${this.minAmount}, Max Amount: ${this.maxAmount}, Error Message: ${this.minAmountMessage}`);
+            });
         }
     }
 }
@@ -17047,27 +17108,15 @@ class Ticker {
 }
 
 ;// ./node_modules/@4site/engrid-scripts/dist/data-layer.js
-// The DataLayer class is a singleton class that is responsible for managing the data layer events.
-// It listens to the EnForm onSubmit event and the RememberMe onLoad event.
-// It also listens to the blur, change, and submit events of the form fields.
-// It adds the following events to the data layer:
-// - EN_PAGE_VIEW
-// - EN_SUCCESSFUL_DONATION
-// - EN_PAGEJSON_{property}
-// - EN_SUBMISSION_SUCCESS_{pageType}
-// - EN_URLPARAM_{key}-{value}
-// - EN_RECURRING_FREQUENCIES
-// - EN_FASTFORMFILL_PERSONALINFO_SUCCESS
-// - EN_FASTFORMFILL_PERSONALINFO_PARTIALSUCCESS
-// - EN_FASTFORMFILL_PERSONALINFO_FAILURE
-// - EN_FASTFORMFILL_ADDRESS_SUCCESS
-// - EN_FASTFORMFILL_ADDRESS_PARTIALSUCCESS
-// - EN_FASTFORMFILL_ADDRESS_FAILURE
-// - EN_FASTFORMFILL_ALL_SUCCESS
-// - EN_FASTFORMFILL_ALL_FAILURE
-// - EN_SUBMISSION_WITH_EMAIL_OPTIN
-// - EN_SUBMISSION_WITHOUT_EMAIL_OPTIN
-// - EN_FORM_VALUE_UPDATED
+// DataLayer: singleton helper for pushing structured analytics events/vars to window.dataLayer.
+// On load it emits one aggregated event `pageJsonVariablesReady` with:
+//   EN_PAGEJSON_* (normalized pageJson), EN_URLPARAM_*, EN_RECURRING_FREQUENCIES (donation pages),
+//   and EN_SUBMISSION_SUCCESS_{PAGETYPE} when on the final page.
+// User actions emit: EN_FORM_VALUE_UPDATED (field changes) and submission opt‑in/out events.
+// Queued end‑of‑gift events/variables (via addEndOfGiftProcessEvent / addEndOfGiftProcessVariable)
+// are replayed after a successful gift process load.
+// Sensitive payment/bank fields are excluded; selected PII fields are Base64 “hashed” (btoa — not cryptographic).
+// Replace with a real hash (e.g., SHA‑256) if required.
 
 class DataLayer {
     constructor() {
@@ -17126,108 +17175,53 @@ class DataLayer {
     }
     transformJSON(value) {
         if (typeof value === "string") {
-            return value.toUpperCase().split(" ").join("-").replace(":-", "-");
+            return value
+                .toUpperCase()
+                .trim()
+                .replace(/\s+/g, "-")
+                .replace(/:-/g, "-");
         }
-        else if (typeof value === "boolean") {
-            value = value ? "TRUE" : "FALSE";
-            return value;
+        if (typeof value === "boolean") {
+            return value ? "TRUE" : "FALSE";
+        }
+        if (typeof value === "number") {
+            return value; // Preserve numeric type for analytics platforms that infer number vs string
         }
         return "";
     }
     onLoad() {
-        // Collect all data layer events and variables to push at once
+        // Collect all data layer variables to push at once
         const dataLayerData = {};
-        const dataLayerEvents = [];
         if (engrid_ENGrid.getGiftProcess()) {
             this.logger.log("EN_SUCCESSFUL_DONATION");
-            dataLayerEvents.push("EN_SUCCESSFUL_DONATION");
             this.addEndOfGiftProcessEventsToDataLayer();
-        }
-        else {
-            this.logger.log("EN_PAGE_VIEW");
-            dataLayerEvents.push("EN_PAGE_VIEW");
         }
         if (window.pageJson) {
             const pageJson = window.pageJson;
             for (const property in pageJson) {
-                if (!Number.isNaN(pageJson[property])) {
-                    dataLayerEvents.push(`EN_PAGEJSON_${property.toUpperCase()}-${pageJson[property]}`);
-                    dataLayerData[`EN_PAGEJSON_${property.toUpperCase()}`] =
-                        pageJson[property];
-                }
-                else {
-                    dataLayerEvents.push(`EN_PAGEJSON_${property.toUpperCase()}-${this.transformJSON(pageJson[property])}`);
-                    dataLayerData[`EN_PAGEJSON_${property.toUpperCase()}`] =
-                        this.transformJSON(pageJson[property]);
-                }
-                dataLayerEvents.push("EN_PAGEJSON_" + property.toUpperCase());
-                dataLayerData.eventValue = pageJson[property];
+                const key = `EN_PAGEJSON_${property.toUpperCase()}`;
+                const value = pageJson[property];
+                dataLayerData[key] = this.transformJSON(value);
             }
             if (engrid_ENGrid.getPageCount() === engrid_ENGrid.getPageNumber()) {
-                dataLayerEvents.push("EN_SUBMISSION_SUCCESS_" + pageJson.pageType.toUpperCase());
                 dataLayerData[`EN_SUBMISSION_SUCCESS_${pageJson.pageType.toUpperCase()}`] = "TRUE";
             }
         }
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.forEach((value, key) => {
-            dataLayerEvents.push(`EN_URLPARAM_${key.toUpperCase()}-${this.transformJSON(value)}`);
             dataLayerData[`EN_URLPARAM_${key.toUpperCase()}`] =
                 this.transformJSON(value);
         });
         if (engrid_ENGrid.getPageType() === "DONATION") {
             const recurrFreqEls = document.querySelectorAll('[name="transaction.recurrfreq"]');
             const recurrValues = [...recurrFreqEls].map((el) => el.value);
-            dataLayerEvents.push("EN_RECURRING_FREQUENCIES");
-            dataLayerData[`'EN_RECURRING_FREQEUENCIES'`] = recurrValues;
-        }
-        let fastFormFill = false;
-        // Fast Form Fill - Personal Details
-        const fastPersonalDetailsFormBlock = document.querySelector(".en__component--formblock.fast-personal-details");
-        if (fastPersonalDetailsFormBlock) {
-            const allPersonalMandatoryInputsAreFilled = FastFormFill.allMandatoryInputsAreFilled(fastPersonalDetailsFormBlock);
-            const somePersonalMandatoryInputsAreFilled = FastFormFill.someMandatoryInputsAreFilled(fastPersonalDetailsFormBlock);
-            if (allPersonalMandatoryInputsAreFilled) {
-                dataLayerEvents.push("EN_FASTFORMFILL_PERSONALINFO_SUCCESS");
-                fastFormFill = true;
-            }
-            else if (somePersonalMandatoryInputsAreFilled) {
-                dataLayerEvents.push("EN_FASTFORMFILL_PERSONALINFO_PARTIALSUCCESS");
-            }
-            else {
-                dataLayerEvents.push("EN_FASTFORMFILL_PERSONALINFO_FAILURE");
-            }
-        }
-        // Fast Form Fill - Address Details
-        const fastAddressDetailsFormBlock = document.querySelector(".en__component--formblock.fast-address-details");
-        if (fastAddressDetailsFormBlock) {
-            const allAddressMandatoryInputsAreFilled = FastFormFill.allMandatoryInputsAreFilled(fastAddressDetailsFormBlock);
-            const someAddressMandatoryInputsAreFilled = FastFormFill.someMandatoryInputsAreFilled(fastAddressDetailsFormBlock);
-            if (allAddressMandatoryInputsAreFilled) {
-                dataLayerEvents.push("EN_FASTFORMFILL_ADDRESS_SUCCESS");
-                fastFormFill = fastFormFill ? true : false; // Only set to true if it was true before
-            }
-            else if (someAddressMandatoryInputsAreFilled) {
-                dataLayerEvents.push("EN_FASTFORMFILL_ADDRESS_PARTIALSUCCESS");
-            }
-            else {
-                dataLayerEvents.push("EN_FASTFORMFILL_ADDRESS_FAILURE");
-            }
-        }
-        if (fastFormFill) {
-            dataLayerEvents.push("EN_FASTFORMFILL_ALL_SUCCESS");
-        }
-        else {
-            dataLayerEvents.push("EN_FASTFORMFILL_ALL_FAILURE");
+            dataLayerData[`EN_RECURRING_FREQUENCIES`] = recurrValues;
         }
         // Push all collected variables at once
         if (Object.keys(dataLayerData).length > 0) {
             dataLayerData.event = "pageJsonVariablesReady";
             this.dataLayer.push(dataLayerData);
         }
-        // Push all collected events individually (GTM requirement)
-        dataLayerEvents.forEach((event) => {
-            this.dataLayer.push({ event });
-        });
         this.attachEventListeners();
     }
     onSubmit() {
@@ -17315,7 +17309,7 @@ class DataLayer {
     }
     addEndOfGiftProcessVariable(variableName, variableValue = "") {
         this.storeEndOfGiftProcessData({
-            [`'${variableName.toUpperCase()}'`]: variableValue,
+            [variableName.toUpperCase()]: variableValue,
         });
     }
     storeEndOfGiftProcessData(data) {
@@ -19202,6 +19196,7 @@ class EventTickets {
  *       "Other": "other",
  *     },
  *     default: 30,
+ *     stickyDefault: false, // Optional. When true, every swap forces the default amount to be (re)selected
  *   },
  *   "monthly": {
  *     amounts: {
@@ -19212,6 +19207,7 @@ class EventTickets {
  *       "Other": "other",
  *     },
  *     default: 15,
+ *     stickyDefault: true, // Example forcing default on each frequency swap
  *   },
  * };
  */
@@ -19221,80 +19217,98 @@ class SwapAmounts {
         this.logger = new logger_EngridLogger("SwapAmounts", "purple", "white", "💰");
         this._amount = DonationAmount.getInstance();
         this._frequency = DonationFrequency.getInstance();
-        this.defaultChange = false;
-        this.swapped = false;
+        this.defaultChange = false; // Tracks if user changed away from default after swap
+        this.swapped = false; // Tracks if we've already executed at least one swap
         this.loadAmountsFromUrl();
         if (!this.shouldRun())
             return;
+        // Respond when frequency changes
         this._frequency.onFrequencyChange.subscribe(() => this.swapAmounts());
+        // Track if donor moves away from the swapped default amount
         this._amount.onAmountChange.subscribe(() => {
-            if (this._frequency.frequency in window.EngridAmounts === false)
+            const configs = window.EngridAmounts;
+            if (!configs)
                 return;
-            this.defaultChange = false;
+            const freq = this._frequency.frequency;
+            if (!(freq in configs))
+                return;
             if (!this.swapped)
-                return;
-            // Check if the amount is not default amount for the frequency
-            if (this._amount.amount !=
-                window.EngridAmounts[this._frequency.frequency].default) {
-                this.defaultChange = true;
-            }
+                return; // ignore early changes before initial swap
+            const currentConfig = configs[freq];
+            this.defaultChange = this._amount.amount !== currentConfig.default;
         });
     }
     loadAmountsFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const amounts = urlParams.get("engrid-amounts");
         if (amounts) {
-            this.defaultChange = true;
-            const amountArray = amounts.split(",").map((amt) => amt.trim());
-            const defaultAmount = parseFloat(engrid_ENGrid.getUrlParameter("transaction.donationAmt")) || parseFloat(amountArray[0]);
+            this.defaultChange = true; // if amounts come from URL, treat as user-set
+            const amountArray = amounts
+                .split(",")
+                .map((amt) => amt.trim())
+                .filter(Boolean);
+            if (!amountArray.length)
+                return;
+            const urlDefaultParam = engrid_ENGrid.getUrlParameter("transaction.donationAmt");
+            const parsedFirst = parseFloat(amountArray[0]);
+            const defaultAmount = (urlDefaultParam && parseFloat(urlDefaultParam)) ||
+                parsedFirst;
             const amountsObj = {};
-            for (let i = 0; i < amountArray.length; i++) {
-                amountsObj[amountArray[i].toString()] = isNaN(parseFloat(amountArray[i]))
-                    ? amountArray[i]
-                    : parseFloat(amountArray[i]);
-            }
+            amountArray.forEach((raw) => {
+                const numeric = parseFloat(raw);
+                amountsObj[raw] = isNaN(numeric) ? raw : numeric;
+            });
+            // Ensure Other choice always present at the end
             amountsObj["Other"] = "other";
+            const config = {
+                amounts: amountsObj,
+                default: defaultAmount,
+                // stickyDefault omitted so it defaults to false behavior
+            };
             window.EngridAmounts = {
-                onetime: { amounts: amountsObj, default: defaultAmount },
-                monthly: { amounts: amountsObj, default: defaultAmount },
+                onetime: config,
+                monthly: config,
             };
         }
     }
     swapAmounts() {
-        if (this._frequency.frequency in window.EngridAmounts) {
-            window.EngagingNetworks.require._defined.enjs.swapList("donationAmt", this.loadEnAmounts(window.EngridAmounts[this._frequency.frequency]), {
-                ignoreCurrentValue: this.ignoreCurrentValue(),
-            });
-            this._amount.load();
-            this.logger.log("Amounts Swapped To", window.EngridAmounts[this._frequency.frequency], {
-                ignoreCurrentValue: this.ignoreCurrentValue(),
-            });
-            this.swapped = true;
-        }
+        const configs = window.EngridAmounts;
+        if (!configs)
+            return;
+        const freq = this._frequency.frequency;
+        const config = configs[freq];
+        if (!config)
+            return;
+        const stickyDefault = !!config.stickyDefault;
+        // If stickyDefault, always ignore current value so selected flag in list enforces default
+        const ignoreCurrentValue = stickyDefault ? true : this.ignoreCurrentValue();
+        window.EngagingNetworks.require._defined.enjs.swapList("donationAmt", this.toEnAmountList(config), { ignoreCurrentValue });
+        this._amount.load();
+        this.logger.log("Amounts Swapped To", config, { ignoreCurrentValue });
+        this.swapped = true;
     }
-    loadEnAmounts(amountArray) {
-        let ret = [];
-        for (let amount in amountArray.amounts) {
-            ret.push({
-                selected: amountArray.amounts[amount] === amountArray.default,
-                label: amount,
-                value: amountArray.amounts[amount].toString(),
-            });
-        }
-        return ret;
+    /**
+     * Convert the internal config object into the structure Engaging Networks expects
+     */
+    toEnAmountList(config) {
+        return Object.entries(config.amounts).map(([label, value]) => ({
+            selected: value === config.default,
+            label,
+            value: value.toString(),
+        }));
     }
     shouldRun() {
-        return "EngridAmounts" in window;
+        return !!window.EngridAmounts;
     }
     ignoreCurrentValue() {
-        if (engrid_ENGrid.getUrlParameter("transaction.donationAmt") !== null) {
-            return this._amount.amount ===
-                parseFloat(engrid_ENGrid.getUrlParameter("transaction.donationAmt"))
-                ? false
-                : true;
+        const urlParam = engrid_ENGrid.getUrlParameter("transaction.donationAmt");
+        if (urlParam !== null) {
+            const urlAmount = parseFloat(urlParam);
+            return this._amount.amount !== urlAmount;
         }
-        return !(window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed() ||
-            this.defaultChange);
+        // If submission failed or donor manually changed away from default, respect current value
+        const submissionFailed = window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed();
+        return !(submissionFailed || this.defaultChange);
     }
 }
 
@@ -20136,6 +20150,272 @@ class PremiumGift {
                 }
             }
         });
+    }
+}
+
+;// ./node_modules/@4site/engrid-scripts/dist/custom-premium.js
+// ENgrid component: CustomPremium
+// Filters premium gifts based on window.EngridPageOptions.CustomPremium configuration
+// Rules:
+// - Config shape: window.EngridPageOptions.CustomPremium[frequency][productId] = minimumAmount
+// - On frequency or amount change, wait 500ms (allow EN to re-render), then:
+//   - Show only gifts whose minimumAmount <= current amount; hide others
+//   - If none visible, hide entire .en__component--premiumgiftblock
+//   - If current selection becomes invalid, select default; if default not visible, select "No Premium" and clear transaction.selprodvariantid
+// - Run once 500ms after page load
+// - Add EnForm onSubmit hook to clear transaction.selprodvariantid when no visible premium items
+
+class CustomPremium {
+    constructor() {
+        this.logger = new logger_EngridLogger("CustomPremium", "teal", "white", "🧩");
+        this._amount = DonationAmount.getInstance();
+        this._frequency = DonationFrequency.getInstance();
+        this._enForm = en_form_EnForm.getInstance();
+        this.stylesInjected = false;
+        this.pendingFrequencyChange = false;
+        if (!this.shouldRun())
+            return;
+        this.injectStyles();
+        // Initial run: execute once after 500ms
+        window.setTimeout(() => this.run(), 500);
+        // On changes, schedule processing and fade out immediately
+        this._amount.onAmountChange.subscribe(() => this.scheduleRun());
+        this._frequency.onFrequencyChange.subscribe(() => {
+            this.pendingFrequencyChange = true;
+            this.scheduleRun();
+        });
+        // Clear hidden variant field on submit if there are no visible premium items
+        this._enForm.onSubmit.subscribe(() => {
+            if (!this.hasVisiblePremiumItems()) {
+                this.clearVariantField();
+            }
+        });
+    }
+    shouldRun() {
+        const isPremiumPage = "pageJson" in window &&
+            "pageType" in window.pageJson &&
+            window.pageJson.pageType === "premiumgift";
+        const hasConfig = !!engrid_ENGrid.getOption("CustomPremium");
+        return isPremiumPage && hasConfig;
+    }
+    get config() {
+        const cfg = engrid_ENGrid.getOption("CustomPremium");
+        return cfg || null;
+    }
+    get premiumContainer() {
+        return document.querySelector(".en__component--premiumgiftblock");
+    }
+    get giftItems() {
+        return Array.from(document.querySelectorAll(".en__pg"));
+    }
+    getFrequencyConfig(frequency) {
+        const customPremiumConfig = this.config;
+        if (!customPremiumConfig)
+            return null;
+        const frequencyConfig = customPremiumConfig[frequency];
+        if (frequencyConfig && typeof frequencyConfig === "object")
+            return frequencyConfig;
+        return null;
+    }
+    getProductsMap(frequency) {
+        const frequencyConfig = this.getFrequencyConfig(frequency);
+        const productsMap = {};
+        if (!frequencyConfig)
+            return productsMap;
+        // If explicit products object exists, use it
+        if (frequencyConfig.products &&
+            typeof frequencyConfig.products === "object") {
+            Object.entries(frequencyConfig.products).forEach(([productId, min]) => {
+                const id = String(productId);
+                const minAmount = Number(min);
+                if (!isNaN(minAmount))
+                    productsMap[id] = minAmount;
+            });
+            return productsMap;
+        }
+        // Otherwise, treat own numeric-value keys as products, ignore 'default'
+        Object.entries(frequencyConfig).forEach(([key, value]) => {
+            if (key === "default")
+                return;
+            const minAmount = Number(value);
+            if (!isNaN(minAmount))
+                productsMap[String(key)] = minAmount;
+        });
+        return productsMap;
+    }
+    getConfiguredDefaultPid(frequency) {
+        const frequencyConfig = this.getFrequencyConfig(frequency);
+        if (!frequencyConfig)
+            return null;
+        const defaultValue = frequencyConfig.default;
+        if (defaultValue === undefined || defaultValue === null)
+            return "0"; // not set => No Premium by spec
+        const id = String(defaultValue);
+        return id;
+    }
+    injectStyles() {
+        if (this.stylesInjected)
+            return;
+        const id = "engrid-custom-premium-style";
+        if (document.getElementById(id)) {
+            this.stylesInjected = true;
+            return;
+        }
+        const style = document.createElement("style");
+        style.id = id;
+        style.innerHTML = `
+      .en__component--premiumgiftblock { transition: opacity 200ms ease-in-out; }
+      .en__component--premiumgiftblock.engrid-premium-processing { opacity: 0; pointer-events: none; }
+      .en__component--premiumgiftblock.engrid-premium-hidden { display: none !important; }
+      .en__component--premiumgiftblock.engrid-premium-ready { opacity: 1; }
+    `;
+        document.head.appendChild(style);
+        this.stylesInjected = true;
+    }
+    startProcessingVisual() {
+        const container = this.premiumContainer;
+        if (container) {
+            container.classList.add("engrid-premium-processing");
+            container.classList.remove("engrid-premium-ready");
+        }
+    }
+    endProcessingVisual(hasVisible) {
+        const container = this.premiumContainer;
+        if (!container)
+            return;
+        container.classList.remove("engrid-premium-processing");
+        if (hasVisible) {
+            container.classList.remove("engrid-premium-hidden");
+            container.classList.add("engrid-premium-ready");
+        }
+        else {
+            container.classList.add("engrid-premium-hidden");
+            container.classList.remove("engrid-premium-ready");
+        }
+    }
+    scheduleRun() {
+        // Immediately fade out while we wait for EN to re-render
+        this.startProcessingVisual();
+        if (this.debounceTimer)
+            window.clearTimeout(this.debounceTimer);
+        this.debounceTimer = window.setTimeout(() => this.run(), 500);
+    }
+    getCurrentFreq() {
+        return (this._frequency.frequency || "onetime").toLowerCase();
+    }
+    getCurrentAmount() {
+        return this._amount.amount || 0;
+    }
+    getAllowedProductIds(freq, amount) {
+        const cfg = this.config;
+        const allowed = new Set();
+        if (!cfg)
+            return allowed;
+        const products = this.getProductsMap(freq);
+        Object.keys(products).forEach((pid) => {
+            const min = Number(products[pid]);
+            if (!isNaN(min) && amount >= min)
+                allowed.add(String(pid));
+        });
+        return allowed;
+    }
+    getProductId(item) {
+        const input = item.querySelector('input[name="en__pg"]');
+        return input ? input.value : null;
+    }
+    showItem(item, show) {
+        item.style.display = show ? "" : "none";
+    }
+    selectByProductId(productId) {
+        const radio = document.querySelector('input[name="en__pg"][value="' + productId + '"]');
+        if (radio) {
+            radio.checked = true;
+            radio.dispatchEvent(new Event("change", { bubbles: true, cancelable: true }));
+            // Update EN's selected class if necessary
+            const prev = document.querySelector(".en__pg--selected");
+            const pg = radio.closest(".en__pg");
+            if (prev && prev !== pg)
+                prev.classList.remove("en__pg--selected");
+            if (pg)
+                pg.classList.add("en__pg--selected");
+        }
+    }
+    clearVariantField() {
+        engrid_ENGrid.setFieldValue("transaction.selprodvariantid", "");
+    }
+    hasVisiblePremiumItems() {
+        // Exclude the "No Premium" (value 0) from count
+        return this.giftItems.some((item) => {
+            const pid = this.getProductId(item);
+            const visible = engrid_ENGrid.isVisible(item);
+            return visible && pid !== "0";
+        });
+    }
+    run() {
+        const container = this.premiumContainer;
+        if (!container)
+            return this.logger.log("No premium container found.");
+        const frequency = this.getCurrentFreq();
+        const amount = this.getCurrentAmount();
+        const allowedProductIds = this.getAllowedProductIds(frequency, amount);
+        // Iterate items and toggle visibility
+        let anyVisible = false;
+        const items = this.giftItems;
+        const noPremiumItems = [];
+        items.forEach((item) => {
+            const productId = this.getProductId(item);
+            if (!productId)
+                return;
+            if (productId === "0") {
+                // track no-premium items but don't decide visibility here — it's always available
+                noPremiumItems.push(item);
+                this.showItem(item, true);
+                return;
+            }
+            const visible = allowedProductIds.has(productId);
+            this.showItem(item, visible);
+            if (visible)
+                anyVisible = true;
+        });
+        // If nothing visible (besides no-premium), hide whole container
+        const hasVisibleGifts = anyVisible;
+        this.endProcessingVisual(hasVisibleGifts);
+        // Selection handling
+        const current = document.querySelector('input[name="en__pg"]:checked');
+        const currentProductId = (current === null || current === void 0 ? void 0 : current.value) || null;
+        const defaultProductId = this.getConfiguredDefaultPid(frequency); // may be "0"
+        // If current selection is invalid after filtering, apply default logic
+        const currentIsValid = currentProductId === "0" ||
+            (currentProductId ? allowedProductIds.has(currentProductId) : false);
+        if (!currentIsValid) {
+            if (defaultProductId &&
+                defaultProductId !== "0" &&
+                allowedProductIds.has(defaultProductId)) {
+                this.selectByProductId(defaultProductId);
+            }
+            else {
+                this.selectByProductId("0");
+                this.clearVariantField();
+            }
+        }
+        else {
+            // Current selection is valid; only force No Premium if frequency changed and default is 0/missing
+            if (this.pendingFrequencyChange &&
+                (!defaultProductId || defaultProductId === "0")) {
+                if (currentProductId !== "0") {
+                    this.selectByProductId("0");
+                    this.clearVariantField();
+                }
+            }
+        }
+        // If container hidden (no visible gifts), select No Premium and clear hidden
+        if (!hasVisibleGifts) {
+            this.selectByProductId("0");
+            this.clearVariantField();
+        }
+        this.logger.log(`Processed gifts for freq=${frequency}, amount=${amount}. Visible gifts: ${hasVisibleGifts ? "yes" : "no"}`);
+        // Reset frequency-change flag after processing
+        this.pendingFrequencyChange = false;
     }
 }
 
@@ -22519,15 +22799,15 @@ class CheckboxLabel {
     }
     run() {
         this.checkBoxesLabels.forEach((checkboxLabel) => {
-            var _a;
-            const labelText = (_a = checkboxLabel.textContent) === null || _a === void 0 ? void 0 : _a.trim();
+            const labelHTML = checkboxLabel.innerHTML.trim();
             const checkboxContainer = checkboxLabel.nextElementSibling;
             const checkboxLabelElement = checkboxContainer.querySelector("label:last-child");
-            if (!checkboxLabelElement || !labelText)
+            if (!checkboxLabelElement || !labelHTML)
                 return;
-            checkboxLabelElement.textContent = labelText;
+            checkboxLabelElement.innerHTML = `<div class="engrid-custom-checkbox-label">${labelHTML}</div>`;
+            // Remove the original label element
             checkboxLabel.remove();
-            this.logger.log(`Set checkbox label to "${labelText}"`);
+            this.logger.log(`Set checkbox label to "${labelHTML}"`);
         });
     }
 }
@@ -22935,6 +23215,7 @@ class FrequencyUpsellModal extends Modal {
  * See FrequencyUpsellOptions for more details.
  */
 
+
 class FrequencyUpsell {
     constructor() {
         this.logger = new logger_EngridLogger("FrequencyUpsell", "lightgray", "darkblue", "🏦");
@@ -22949,11 +23230,54 @@ class FrequencyUpsell {
             this.logger.log("FrequencyUpsell not running");
             return;
         }
-        this.options = Object.assign(Object.assign({}, FrequencyUpsellOptionsDefaults), window.EngridFrequencyUpsell);
+        this.options = this.selectOptions(window.EngridFrequencyUpsell);
         this.logger.log("FrequencyUpsell initialized", this.options);
         this.upsellModal = new FrequencyUpsellModal(this.options);
         this.createFrequencyField();
         this.addEventListeners();
+    }
+    /**
+     * Select the proper options (single config or A/B variant) and return a concrete FrequencyUpsellOptions object.
+     * If an A/B test config is provided (abTest: true, options: [...]) a random variant is chosen and stored
+     * in a 1-day cookie so subsequent visits get the same variant.
+     */
+    selectOptions(config) {
+        // Simple (non AB) case
+        if (!config.abTest) {
+            return Object.assign(Object.assign({}, FrequencyUpsellOptionsDefaults), config);
+        }
+        const abConfig = config;
+        const cookieName = abConfig.cookieName || "engrid_frequency_upsell_variant";
+        const existing = get(cookieName);
+        let index;
+        if (existing !== undefined) {
+            const parsed = parseInt(existing, 10);
+            if (!isNaN(parsed) && parsed >= 0 && parsed < abConfig.options.length) {
+                index = parsed;
+            }
+            else {
+                index = this.randomIndex(abConfig.options.length);
+            }
+        }
+        else {
+            index = this.randomIndex(abConfig.options.length);
+        }
+        // Persist for configured duration
+        const duration = abConfig.cookieDurationDays || 1;
+        set(cookieName, index.toString(), { expires: duration });
+        const chosen = abConfig.options[index];
+        // Push variant info to dataLayer if available
+        if (window.dataLayer) {
+            window.dataLayer.push({
+                event: "frequency_upsell_ab_variant",
+                frequencyUpsellVariantIndex: index,
+                frequencyUpsellVariantTitle: chosen.title,
+            });
+        }
+        return Object.assign(Object.assign({}, FrequencyUpsellOptionsDefaults), chosen);
+    }
+    randomIndex(length) {
+        return Math.floor(Math.random() * length);
     }
     /**
      * Check if the FrequencyUpsell should run:
@@ -23047,10 +23371,11 @@ class FrequencyUpsell {
 }
 
 ;// ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.22.13";
+const AppVersion = "0.22.18";
 
 ;// ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 
