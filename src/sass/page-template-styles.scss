@@ -2,7 +2,7 @@
 // Uncomment to use and reference engrid-scrips SASS files for more CSS Custom Properties.
 // All CSS Custom Properties should be scoped to the theme using CSS Data Attributes.
 //noinspection CssNoGenericFontName,SassScssResolvedByNameOnly
-[data-engrid-theme="spcai"] {
+[data-engrid-theme="elca"] {
   -webkit-font-smoothing: antialiased;
 
   // COLORS
@@ -27,12 +27,14 @@
   --default_font-size: 20px;
   --default_font-weight: 400;
   --default_line-height: 1.6;
-  --default_font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  --h1_font-family: "Oswald", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --input_font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
-  --button_font-family: "Oswald", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --default_font-family: "proxima-nova", "Open Sans", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --h1_font-family: "playfair-display", "Open Sans", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  --input_font-family: "proxima-nova", "Open Sans", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  --button_font-family: "proxima-nova", "Open Sans", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
 
   // HEADERS
   --h1_color: var(--color_navy);
@@ -268,7 +270,7 @@
 
       &:before {
         background-color: var(--color_ivory);
-        background-image: url(https://aaf1a18515da0e792f78-c27fdabe952dfc357fe25ebf5c8897ee.ssl.cf5.rackcdn.com/2452/bg_full_2x.png?v=1752171733000);
+        background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/2452/bg_full_2x.png?v=1752171733000);
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center top;
