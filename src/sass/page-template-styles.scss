@@ -950,7 +950,7 @@
     }
 
     .body-footer-content {
-      margin-top: 38px;
+      margin-top: -16px;
       margin-bottom: 80px;
     }
 
@@ -959,6 +959,10 @@
       justify-content: center;
       align-items: center;
       margin-top: 54px;
+
+      &.certificates-mt-extra {
+        margin-top: 60px;
+      }
 
       img {
         height: 100px;
