@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, September 25, 2025 @ 13:06:48 ET
+ *  Date: Saturday, September 27, 2025 @ 23:01:23 ET
  *  By: Cawe Coy
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.18
@@ -7990,7 +7990,7 @@ body[data-engrid-debug]:before{
   --h1_color:var(--color_black);
   --h1_font-weight:300;
   --h1_font-size:52px;
-  --h1_line-height:60px;
+  --h1_line-height:70px;
   --h2_font-size:40px;
   --h2_line-height:48px;
   --h2_font-weight:700;
@@ -8959,6 +8959,13 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=elca] .en__component--copyblock p:last-child{
   margin-bottom:0;
+}
+[data-engrid-theme=elca] .loader{
+  align-self:center;
+  margin-top:0;
+}
+[data-engrid-theme=elca] #en__upsellModal .en__upsellModal__container{
+  --button_border-radius:20px;
 }
 [data-engrid-theme=elca] #en__upsellModal__no,[data-engrid-theme=elca] #en__upsellModal__yes{
   --button_font-size:20px !important;
