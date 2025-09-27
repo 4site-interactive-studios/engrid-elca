@@ -1300,6 +1300,9 @@
       margin-bottom: 0;
     }
   }
+  #en__upsellModal .en__upsellModal__container {
+    --button_border-radius: 20px;
+  }
 
   #en__upsellModal__yes,
   #en__upsellModal__no {
