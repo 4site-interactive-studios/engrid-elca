@@ -1240,7 +1240,11 @@
   label.en__field__label:has(+ .en__field__element--text),
   label.en__field__label:has(+ .en__field__element--telephone),
   label.en__field__label:has(+ .en__field__element--select),
-  label.en__field__label:has(+ .en__field__element--vgs) {
+  label.en__field__label:has(+ .en__field__element--vgs),
+  label.en__field__label:has(+ .en__field__input--text),
+  label.en__field__label:has(+ .en__field__input--telephone),
+  label.en__field__label:has(+ .en__field__input--select),
+  label.en__field__label:has(+ .en__field__input--vgs) {
     padding-left: 30px;
   }
 
