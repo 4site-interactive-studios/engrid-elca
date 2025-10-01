@@ -30,8 +30,8 @@ const options: Options = {
   SrcDefer: true,
   ProgressBar: true,
   NeverBounceAPI: "private_a27cd34c51e7f33c53c383a54471df17",
-  NeverBounceDateField: "supporter.NOT_TAGGED_36",
-  NeverBounceStatusField: "supporter.NOT_TAGGED_35",
+  NeverBounceDateField: "supporter.NOT_TAGGED_100",
+  NeverBounceStatusField: "supporter.NOT_TAGGED_99",
   NeverBounceDateFormat: "YYYYMMDD",
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
