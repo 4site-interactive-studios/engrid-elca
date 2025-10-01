@@ -29,6 +29,10 @@ const options: Options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
+  NeverBounceAPI: "private_a27cd34c51e7f33c53c383a54471df17",
+  NeverBounceDateField: "supporter.NOT_TAGGED_36",
+  NeverBounceStatusField: "supporter.NOT_TAGGED_35",
+  NeverBounceDateFormat: "YYYYMMDD",
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
     ".en__field--donationAmt.en__field--withOther .en__field__input--other":
@@ -50,6 +54,6 @@ const options: Options = {
   },
   onSubmit: () => {
     sendSupporterDataToTatango();
-  }
+  },
 };
 new App(options);
