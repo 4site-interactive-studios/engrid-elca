@@ -124,7 +124,7 @@
   --button_font-size: 36px;
   --button_font-weight: 700;
   --button_line-height: 1.6;
-  --button_border-radius: 999px;
+  --button_border-radius: 15px;
   --button_border-width: 2px;
   --button_padding: 8px 12px;
   --button_color: var(--color_navy);
@@ -1308,10 +1308,6 @@
   .loader {
     margin-top: 0;
     align-self: center;
-  }
-
-  #en__upsellModal .en__upsellModal__container {
-    --button_border-radius: 20px;
   }
 
   #en__upsellModal__yes,
