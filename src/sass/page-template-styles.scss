@@ -77,7 +77,7 @@
   --input_border-color: var(--color_black);
   --input_border-radius: 999px;
   --input_box-shadow: none;
-  --input_padding: 16px 20px;
+  --input_padding: 16px;
 
   // INPUT:FOCUS
   // INPUT:HOVER
@@ -140,7 +140,7 @@
   --button_border-color_checked: var(--color_navy);
 
   // RECURRING FREQUENCY
-  --recurring-frequency__button_font-size: 36px;
+  --recurring-frequency__button_font-size: 28px;
   --recurring-frequency__button_padding: 7px 12px 9px;
   // RECURRING FREQUENCY:CHECKED
   --recurring-frequency__button_color_checked: var(--color_white);
@@ -157,7 +157,7 @@
   --give-by-select__button_color_checked: var(--color_white);
 
   // DONATE BUTTONS
-  --donation-amount__button_font-size: 40px;
+  --donation-amount__button_font-size: 36px;
   --donation-amount__button_line-height: 50px;
   --donation-amount__button_padding: 10px 5px 14px;
   // DONATE BUTTONS:CHECKED
@@ -730,10 +730,10 @@
           }
 
           .en__field__item--other {
-            --input_font-size: 40px;
+            --input_font-size: 36px;
             --input_placeholder-font-weight: 700;
             --input_line-height: 1;
-            --input_padding: 6px 6px 6px 36px;
+            --input_padding: 6px 6px 6px 40px;
             --input_font-family: var(--button_font-family);
 
             flex-basis: 100%;
@@ -1049,7 +1049,7 @@
       --engrid__content-header_margin: 0;
       --engrid__body-title_margin: 0;
       --engrid__body-top_margin: 0;
-      --recurring-frequency__button_font-size: 24px;
+      --recurring-frequency__button_font-size: 20px;
       --submit__button_font-size: 26px;
       --donation-amount__button_count: 2;
 
