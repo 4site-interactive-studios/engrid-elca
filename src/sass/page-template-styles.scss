@@ -685,6 +685,25 @@
           background-image: url('data:image/svg+xml,<svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M27.8985 9.14438C27.8985 17.6353 18.7419 24.1536 14.3271 25.869C9.69423 23.9392 0.101562 17.8926 0.101562 9.14438C0.101562 -1.30847 12.3649 -2.27335 14.3271 4.80242C16.2892 -2.43417 27.8985 -1.46929 27.8985 9.14438Z" fill="%23E11F28"/></svg>');
         }
       }
+      .en__field__element .en__field__label:hover:before {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='28' height='26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M27.898 9.144c0 8.491-9.156 15.01-13.57 16.725C9.693 23.939.101 17.893.101 9.144c0-10.452 12.263-11.417 14.225-4.342 1.962-7.236 13.571-6.271 13.571 4.342Z' fill='%23E11F28'/%3E%3C/svg%3E") !important;
+      }
+      .en__field__element .en__field__label:hover {
+        background-color: var(
+          --recurring-frequency__button_background-color_checked
+        ) !important;
+        border-color: var(
+          --recurring-frequency__button_border-color_checked
+        ) !important;
+        color: var(--recurring-frequency__button_color_checked) !important;
+      }
+      .en__field--donationAmt .en__field__element .en__field__label:hover {
+        background-color: var(
+          --donation-amount__button_background-color_checked
+        );
+        border-color: var(--donation-amount__button_border-color_checked);
+        color: var(--donation-amount__button_color_checked);
+      }
     }
 
     .radio-to-buttons_donationAmt {
