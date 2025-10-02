@@ -29,7 +29,7 @@ const options: Options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
-  NeverBounceAPI: "private_a27cd34c51e7f33c53c383a54471df17",
+  NeverBounceAPI: "public_1dd5a3d244c7ce5138d9a13c2d6c7bd9",
   NeverBounceDateField: "supporter.NOT_TAGGED_100",
   NeverBounceStatusField: "supporter.NOT_TAGGED_99",
   NeverBounceDateFormat: "YYYYMMDD",
