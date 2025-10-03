@@ -623,6 +623,15 @@
         padding-right: 0rem !important;
         padding-left: 0rem !important;
       }
+      // Remove extra padding on footer while Explore the ELCA and Quick Links are hidden
+      .padding-xxlarge {
+        padding: 0 !important;
+      }
+      // Footer - Explore the ELCA and Quick Links
+      #w-node-_999891fe-2cc6-1cb4-fc1c-ea5c15810372-1581035f,
+      #w-node-_999891fe-2cc6-1cb4-fc1c-ea5c15810382-1581035f {
+        display: none !important;
+      }
       img.footer_logo {
         width: 158px;
         margin-left: 0;
