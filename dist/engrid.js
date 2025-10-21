@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 21, 2025 @ 01:51:28 ET
+ *  Date: Tuesday, October 21, 2025 @ 15:57:53 ET
  *  By: Cawe Coy
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.18
@@ -24588,6 +24588,46 @@ const customScript = function (App, EnForm) {
     inputObserver2.observe(nameInput, {
       attributes: true
     });
+  }
+
+  /**
+   * Handles dynamic visibility of donation dedication fields.
+   *
+   * When "Dedicate this donation" is checked, the honoree and notification sections appear.
+   * When it’s unchecked, all related fields (including notification options) are hidden and reset.
+   * Also ensures no errors occur if any expected elements are missing in the DOM.
+   */
+  const dedicateCheckbox = document.querySelector("#en__field_transaction_inmem");
+  const notifyYesRadio = document.querySelector("#en__field_supporter_NOT_TAGGED_971");
+  const notifyNoRadio = document.querySelector("#en__field_supporter_NOT_TAGGED_970");
+  const notifySections = document.querySelectorAll(".engrid__supporterNOT_TAGGED_97-Paper");
+  function updateDedicationFields() {
+    const isDedicated = dedicateCheckbox.checked;
+    if (!isDedicated) {
+      notifyYesRadio.checked = false;
+      notifyNoRadio.checked = true;
+      notifySections.forEach(section => {
+        section.style.display = "none";
+      });
+    }
+  }
+  function updateNotifyFields() {
+    if (notifyYesRadio.checked && dedicateCheckbox.checked) {
+      notifySections.forEach(section => {
+        section.style.display = "block";
+      });
+    } else {
+      notifySections.forEach(section => {
+        section.style.display = "none";
+      });
+    }
+  }
+  if (dedicateCheckbox && notifyYesRadio && notifyNoRadio && notifySections.length > 0) {
+    dedicateCheckbox.addEventListener("change", updateDedicationFields);
+    notifyYesRadio.addEventListener("change", updateNotifyFields);
+    notifyNoRadio.addEventListener("change", updateNotifyFields);
+    updateDedicationFields();
+    updateNotifyFields();
   }
 };
 ;// ./src/scripts/tatango.ts
