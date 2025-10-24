@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 21, 2025 @ 15:57:53 ET
- *  By: Cawe Coy
+ *  Date: Wednesday, October 22, 2025 @ 10:04:26 ET
+ *  By: 4Site
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.18
  *
@@ -9059,6 +9059,10 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=elca] #en__upsellModal__no button span{
   -webkit-text-decoration:underline;
   text-decoration:underline;
+}
+[data-engrid-theme=elca] .en__field--radio.en__field--othamt4 .en__field__element{
+  align-items:flex-start;
+  flex-direction:column;
 }
 
 [data-engrid-theme=elca][data-engrid-subtheme=multistep]{

@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 21, 2025 @ 15:57:53 ET
- *  By: Cawe Coy
+ *  Date: Wednesday, October 22, 2025 @ 10:04:26 ET
+ *  By: 4Site
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.18
  *
@@ -24629,6 +24629,130 @@ const customScript = function (App, EnForm) {
     updateDedicationFields();
     updateNotifyFields();
   }
+
+  /*  Start EN: In Honor / In Memory UI sync
+    Behavior
+    - On load, read checkbox name="transaction.inmem".
+    - If checked and no radio in name="transaction.othamt4" is selected, select the first enabled radio.
+    - If unchecked, clear all radios.
+    - When radios change, update label and placeholder of #en__field_transaction_honname:
+        * in-honor   -> "Person to be Honored"
+        * in-memory  -> "Person to be Remembered"
+      When none selected, restore the original label/placeholder captured at init.
+  */
+
+  (function () {
+    const SEL = {
+      inMemCheckbox: 'input[name="transaction.inmem"]',
+      tributeRadios: 'input[name="transaction.othamt4"]',
+      honInput: "#en__field_transaction_honname",
+      honLabel: 'label[for="en__field_transaction_honname"]'
+    };
+    const COPY = {
+      honor: {
+        label: "Person to be Honored",
+        placeholder: "Person to be Honored"
+      },
+      memory: {
+        label: "Person to be Remembered",
+        placeholder: "Person to be Remembered"
+      }
+    };
+    const log = (...args) => {
+      if (typeof App !== "undefined" && typeof App.log === "function") {
+        App.log("[inmem]", ...args);
+      }
+    };
+    const $inMem = document.querySelector(SEL.inMemCheckbox);
+    const $radios = Array.from(document.querySelectorAll(SEL.tributeRadios));
+    const $honInput = document.querySelector(SEL.honInput);
+    const $honLabel = document.querySelector(SEL.honLabel);
+    if (!$inMem || $radios.length === 0 || !$honInput || !$honLabel) {
+      log("Required elements missing", {
+        hasCheckbox: !!$inMem,
+        radios: $radios.length,
+        hasInput: !!$honInput,
+        hasLabel: !!$honLabel
+      });
+      return;
+    }
+    const ORIGINAL = {
+      label: $honLabel.textContent.trim(),
+      placeholder: $honInput.getAttribute("placeholder") || ""
+    };
+    function getSelectedRadio() {
+      return $radios.find(r => r.checked);
+    }
+    function firstEnabledRadio() {
+      return $radios.find(r => !r.disabled);
+    }
+    function setRadioChecked(radio, checked) {
+      if (!radio || radio.disabled) return;
+      if (radio.checked === checked) return;
+      radio.checked = checked;
+      radio.dispatchEvent(new Event("change", {
+        bubbles: true
+      }));
+    }
+    function clearAllRadios() {
+      $radios.forEach(r => {
+        if (r.checked) {
+          r.checked = false;
+          r.dispatchEvent(new Event("change", {
+            bubbles: true
+          }));
+        }
+      });
+    }
+    function updateHonField(mode) {
+      if (mode === "in-honor") {
+        $honLabel.textContent = COPY.honor.label;
+        $honInput.setAttribute("placeholder", COPY.honor.placeholder);
+        log("Hon field set for honor");
+      } else if (mode === "in-memory") {
+        $honLabel.textContent = COPY.memory.label;
+        $honInput.setAttribute("placeholder", COPY.memory.placeholder);
+        log("Hon field set for memory");
+      } else {
+        $honLabel.textContent = ORIGINAL.label;
+        $honInput.setAttribute("placeholder", ORIGINAL.placeholder);
+        log("Hon field restored to original");
+      }
+    }
+    function syncFromState() {
+      log("Sync start", {
+        inMem: $inMem.checked
+      });
+      if ($inMem.checked) {
+        let selected = getSelectedRadio();
+        if (!selected) {
+          const first = firstEnabledRadio();
+          if (first) {
+            log("No radio selected, selecting first enabled", first.value);
+            setRadioChecked(first, true);
+            selected = first;
+          }
+        }
+        updateHonField(selected ? selected.value : null);
+      } else {
+        log("Checkbox off, clearing radios and restoring field");
+        clearAllRadios();
+        updateHonField(null);
+      }
+    }
+    $inMem.addEventListener("change", syncFromState);
+    $radios.forEach(r => {
+      r.addEventListener("change", function (e) {
+        if (e.target.checked) {
+          updateHonField(e.target.value);
+        } else if (!$radios.some(x => x.checked)) {
+          updateHonField(null);
+        }
+      });
+    });
+    syncFromState();
+  })();
+  /*  End EN: In Honor / In Memory UI sync */
 };
 ;// ./src/scripts/tatango.ts
 
