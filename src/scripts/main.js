@@ -365,9 +365,9 @@ export const customScript = function (App, EnForm) {
       },
     };
 
-    const log = (...args) => {
+    const log = (message) => {
       if (typeof App !== "undefined" && typeof App.log === "function") {
-        App.log("[inmem]", ...args);
+        App.log("[inmem] " + message);
       }
     };
 
@@ -377,12 +377,15 @@ export const customScript = function (App, EnForm) {
     const $honLabel = document.querySelector(SEL.honLabel);
 
     if (!$inMem || $radios.length === 0 || !$honInput || !$honLabel) {
-      log("Required elements missing", {
-        hasCheckbox: !!$inMem,
-        radios: $radios.length,
-        hasInput: !!$honInput,
-        hasLabel: !!$honLabel,
-      });
+      log(
+        "Required elements missing | Data: ",
+        JSON.stringify({
+          hasCheckbox: !!$inMem,
+          radios: $radios.length,
+          hasInput: !!$honInput,
+          hasLabel: !!$honLabel,
+        })
+      );
       return;
     }
 
@@ -432,13 +435,16 @@ export const customScript = function (App, EnForm) {
     }
 
     function syncFromState() {
-      log("Sync start", { inMem: $inMem.checked });
+      log("Sync start | Data: " + JSON.stringify({ inMem: $inMem.checked }));
       if ($inMem.checked) {
         let selected = getSelectedRadio();
         if (!selected) {
           const first = firstEnabledRadio();
           if (first) {
-            log("No radio selected, selecting first enabled", first.value);
+            log(
+              "No radio selected, selecting first enabled | Data: " +
+                first.value
+            );
             setRadioChecked(first, true);
             selected = first;
           }

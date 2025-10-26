@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, October 24, 2025 @ 15:41:38 ET
+ *  Date: Saturday, October 25, 2025 @ 20:11:10 ET
  *  By: Cawe Coy
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.18
@@ -24658,9 +24658,9 @@ const customScript = function (App, EnForm) {
         placeholder: "Person to be Remembered"
       }
     };
-    const log = (...args) => {
+    const log = message => {
       if (typeof App !== "undefined" && typeof App.log === "function") {
-        App.log("[inmem]", ...args);
+        App.log("[inmem] " + message);
       }
     };
     const $inMem = document.querySelector(SEL.inMemCheckbox);
@@ -24668,12 +24668,12 @@ const customScript = function (App, EnForm) {
     const $honInput = document.querySelector(SEL.honInput);
     const $honLabel = document.querySelector(SEL.honLabel);
     if (!$inMem || $radios.length === 0 || !$honInput || !$honLabel) {
-      log("Required elements missing", {
+      log("Required elements missing | Data: ", JSON.stringify({
         hasCheckbox: !!$inMem,
         radios: $radios.length,
         hasInput: !!$honInput,
         hasLabel: !!$honLabel
-      });
+      }));
       return;
     }
     const ORIGINAL = {
@@ -24720,15 +24720,15 @@ const customScript = function (App, EnForm) {
       }
     }
     function syncFromState() {
-      log("Sync start", {
+      log("Sync start | Data: " + JSON.stringify({
         inMem: $inMem.checked
-      });
+      }));
       if ($inMem.checked) {
         let selected = getSelectedRadio();
         if (!selected) {
           const first = firstEnabledRadio();
           if (first) {
-            log("No radio selected, selecting first enabled", first.value);
+            log("No radio selected, selecting first enabled | Data: " + first.value);
             setRadioChecked(first, true);
             selected = first;
           }
