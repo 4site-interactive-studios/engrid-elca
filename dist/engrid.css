@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 23, 2025 @ 19:52:23 ET
- *  By: Cawe Coy
+ *  Date: Saturday, November 22, 2025 @ 23:57:20 ET
+ *  By: cawe
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.18
  *
@@ -8115,7 +8115,7 @@ body[data-engrid-debug]:before{
   --engrid__content-header_margin:0;
   --engrid__content-footer_padding:0px 64px 20px;
   --engrid__content-footer_margin:0;
-  --engrid__content-footer_background-color:var(--color_black);
+  --engrid__content-footer_background-color:#77726a;
   --engrid__body_padding:0 64px;
   --engrid__body-title_margin:0;
   --engrid__body-top_margin:0;
@@ -8252,7 +8252,7 @@ body[data-engrid-debug]:before{
   justify-content:flex-end;
 }
 [data-engrid-theme=elca][data-engrid-layout=leftleft1col] .content-footer .divider-horizontal{
-  background-color:var(--color_black);
+  background-color:#0003;
   height:1px;
   width:100%;
 }
@@ -9059,6 +9059,18 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=elca] #en__upsellModal__no button span{
   -webkit-text-decoration:underline;
   text-decoration:underline;
+}
+[data-engrid-theme=elca] .other-ways-to-give-button{
+  background-color:var(--color_white) !important;
+  border-color:var(--color_white) !important;
+  color:var(--engrid__content-footer_background-color) !important;
+  font-size:16px !important;
+  margin-bottom:2rem;
+  margin-top:1rem;
+}
+[data-engrid-theme=elca] .other-ways-to-give-button:hover{
+  background-color:var(--color_parchment-300) !important;
+  border-color:var(--color_parchment-300) !important;
 }
 
 [data-engrid-theme=elca][data-engrid-subtheme=multistep]{
