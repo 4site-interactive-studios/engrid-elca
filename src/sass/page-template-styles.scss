@@ -220,7 +220,7 @@
     --engrid__content-header_margin: 0;
     --engrid__content-footer_padding: 0px 64px 20px;
     --engrid__content-footer_margin: 0;
-    --engrid__content-footer_background-color: var(--color_black);
+    --engrid__content-footer_background-color: #77726a;
     --engrid__body_padding: 0 64px;
     --engrid__body-title_margin: 0;
     --engrid__body-top_margin: 0;
@@ -375,7 +375,7 @@
       }
       .divider-horizontal {
         height: 1px;
-        background-color: var(--color_black);
+        background-color: #0003;
         width: 100%;
       }
       .footer_bottom-wrapper {
@@ -1424,5 +1424,25 @@
   .en__field--radio.en__field--othamt4 .en__field__element {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .other-ways-to-give-button {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    font-size: 16px !important;
+    background-color: var(--color_white) !important;
+    border-color: var(--color_white) !important;
+    color: var(--engrid__content-footer_background-color) !important;
+  }
+
+  .other-ways-to-give-button:hover {
+    background-color: var(--color_parchment-300) !important;
+    border-color: var(--color_parchment-300) !important;
+  }
+
+  .en__component--formblock
+    .en__field.en__field--401021.en__field--checkbox.en__field--question
+    .en__field__element {
+    margin-bottom: 0px;
   }
 }
