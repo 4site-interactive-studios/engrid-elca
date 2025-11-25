@@ -1433,4 +1433,10 @@
     background-color: var(--color_parchment-300) !important;
     border-color: var(--color_parchment-300) !important;
   }
+
+  .en__component--formblock
+    .en__field.en__field--401021.en__field--checkbox.en__field--question
+    .en__field__element {
+    margin-bottom: 0px;
+  }
 }

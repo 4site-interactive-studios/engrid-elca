@@ -334,4 +334,49 @@ export const customScript = function (App, EnForm) {
     updateDedicationFields();
     updateNotifyFields();
   }
+
+  /* 
+    Start Split Gift
+      Handle Input Defaults and Reset Behavior
+    
+    Behavior:
+    - Loop through the Split Gift number inputs and set value to 0.00 if empty
+    - Add step="0.01" and min="0" to those number inputs 
+    - If one of those number inputs looses focus, and has no value, set it to 0.00
+    - If the user deselects the Split Gift checkbox, set the now hidden number input values to 0.00
+  */
+  const splitGiftNumberInputs = document.querySelectorAll(
+    ".engrid__supporterquestions401021-Y input[type='number']"
+  );
+  splitGiftNumberInputs.forEach((input) => {
+    input.setAttribute("step", "0.01");
+    input.setAttribute("min", "0");
+    if (
+      (input.value || "").trim() === "" ||
+      (input.value || "0").trim() === "0"
+    ) {
+      input.value = "0.00";
+      input.setAttribute("data-value", "0.00");
+    }
+    input.addEventListener("blur", function () {
+      if ((this.value || "").trim() === "") {
+        this.value = "0.00";
+        this.setAttribute("data-value", "0.00");
+      }
+    });
+  });
+  const splitGiftCheckbox = document.querySelector(
+    "#en__field_supporter_questions_401021"
+  );
+  if (splitGiftCheckbox) {
+    splitGiftCheckbox.addEventListener("change", function () {
+      if (!this.checked) {
+        splitGiftNumberInputs.forEach((input) => {
+          input.value = "0.00";
+          input.setAttribute("data-value", "0.00");
+        });
+      }
+    });
+  }
+  /* End Split Gift  */
 };
