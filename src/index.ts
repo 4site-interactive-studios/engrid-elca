@@ -39,7 +39,6 @@ const options: Options = {
     record_field: "supporter.NOT_TAGGED_107",
     date_field: "supporter.NOT_TAGGED_104",
     status_field: "supporter.NOT_TAGGED_105",
-    countries: ["us"],
     phone_enable: true,
     phone_preferred_countries: ["us"],
     phone_record_field: "supporter.NOT_TAGGED_113",

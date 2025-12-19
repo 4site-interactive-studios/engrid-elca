@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, December 19, 2025 @ 14:54:24 ET
+ *  Date: Friday, December 19, 2025 @ 15:32:19 ET
  *  By: cawe
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.6
@@ -25331,7 +25331,6 @@ const options = {
     record_field: "supporter.NOT_TAGGED_107",
     date_field: "supporter.NOT_TAGGED_104",
     status_field: "supporter.NOT_TAGGED_105",
-    countries: ["us"],
     phone_enable: true,
     phone_preferred_countries: ["us"],
     phone_record_field: "supporter.NOT_TAGGED_113",
