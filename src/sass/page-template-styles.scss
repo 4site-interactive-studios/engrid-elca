@@ -1445,4 +1445,8 @@
     .en__field__element {
     margin-bottom: 0px;
   }
+
+  .en__component--formblock .en__field--417692:not(.en__field--question) {
+    margin-bottom: 0;
+  }
 }

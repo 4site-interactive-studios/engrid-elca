@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, November 25, 2025 @ 17:27:56 ET
- *  By: cawe
+ *  Date: Friday, December 19, 2025 @ 10:26:23 ET
+ *  By: 4Site
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.6
  *
@@ -9076,7 +9076,7 @@ body[data-engrid-debug]:before{
   background-color:var(--color_parchment-300) !important;
   border-color:var(--color_parchment-300) !important;
 }
-[data-engrid-theme=elca] .en__component--formblock .en__field.en__field--401021.en__field--checkbox.en__field--question .en__field__element{
+[data-engrid-theme=elca] .en__component--formblock .en__field--417692:not(.en__field--question),[data-engrid-theme=elca] .en__component--formblock .en__field.en__field--401021.en__field--checkbox.en__field--question .en__field__element{
   margin-bottom:0;
 }
 
