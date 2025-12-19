@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, December 19, 2025 @ 10:26:23 ET
- *  By: 4Site
+ *  Date: Friday, December 19, 2025 @ 14:18:26 ET
+ *  By: cawe
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.6
  *
@@ -25325,6 +25325,19 @@ const options = {
   NeverBounceDateField: "supporter.NOT_TAGGED_100",
   NeverBounceStatusField: "supporter.NOT_TAGGED_99",
   NeverBounceDateFormat: "YYYYMMDD",
+  TidyContact: {
+    cid: "c475d648-4393-44a8-8582-e710a046b597",
+    us_zip_divider: "-",
+    record_field: "supporter.NOT_TAGGED_107",
+    date_field: "supporter.NOT_TAGGED_104",
+    status_field: "supporter.NOT_TAGGED_105",
+    countries: ["us"],
+    phone_enable: true,
+    phone_preferred_countries: ["us"],
+    phone_record_field: "supporter.NOT_TAGGED_113",
+    phone_date_field: "supporter.NOT_TAGGED_112",
+    phone_status_field: "supporter.NOT_TAGGED_109"
+  },
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
     ".en__field--donationAmt.en__field--withOther .en__field__input--other": "Custom Amount",

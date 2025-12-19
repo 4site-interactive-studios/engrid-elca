@@ -33,6 +33,19 @@ const options: Options = {
   NeverBounceDateField: "supporter.NOT_TAGGED_100",
   NeverBounceStatusField: "supporter.NOT_TAGGED_99",
   NeverBounceDateFormat: "YYYYMMDD",
+  TidyContact: {
+    cid: "c475d648-4393-44a8-8582-e710a046b597",
+    us_zip_divider: "-",
+    record_field: "supporter.NOT_TAGGED_107",
+    date_field: "supporter.NOT_TAGGED_104",
+    status_field: "supporter.NOT_TAGGED_105",
+    countries: ["us"],
+    phone_enable: true,
+    phone_preferred_countries: ["us"],
+    phone_record_field: "supporter.NOT_TAGGED_113",
+    phone_date_field: "supporter.NOT_TAGGED_112",
+    phone_status_field: "supporter.NOT_TAGGED_109",
+  },
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
     ".en__field--donationAmt.en__field--withOther .en__field__input--other":
