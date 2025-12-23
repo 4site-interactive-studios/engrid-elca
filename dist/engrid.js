@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, December 22, 2025 @ 20:32:26 ET
+ *  Date: Tuesday, December 23, 2025 @ 14:05:09 ET
  *  By: cawe
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.6
@@ -25296,12 +25296,15 @@ const customScript = function (App, EnForm) {
     spouseCheckbox.addEventListener("change", handleSpouseCheckboxState);
 
     // Listen for programmatic changes to the checkbox
-    const observer = new MutationObserver(() => {
-      handleSpouseCheckboxState();
-    });
-    observer.observe(spouseCheckbox, {
-      attributes: true,
-      attributeFilter: ["checked"]
+    const spouseDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "checked");
+    Object.defineProperty(spouseCheckbox, "checked", {
+      get() {
+        return spouseDescriptor.get.call(this);
+      },
+      set(value) {
+        spouseDescriptor.set.call(this, value);
+        handleSpouseCheckboxState();
+      }
     });
   }
   /* End Clear Spouse Name Fields */

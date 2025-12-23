@@ -562,13 +562,19 @@ export const customScript = function (App, EnForm) {
     spouseCheckbox.addEventListener("change", handleSpouseCheckboxState);
 
     // Listen for programmatic changes to the checkbox
-    const observer = new MutationObserver(() => {
-      handleSpouseCheckboxState();
-    });
+    const spouseDescriptor = Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      "checked"
+    );
 
-    observer.observe(spouseCheckbox, {
-      attributes: true,
-      attributeFilter: ["checked"],
+    Object.defineProperty(spouseCheckbox, "checked", {
+      get() {
+        return spouseDescriptor.get.call(this);
+      },
+      set(value) {
+        spouseDescriptor.set.call(this, value);
+        handleSpouseCheckboxState();
+      },
     });
   }
   /* End Clear Spouse Name Fields */
