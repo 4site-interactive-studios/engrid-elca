@@ -6,32 +6,34 @@ export const customScript = function (App, EnForm) {
   function updateLabel(field) {
     const fieldEl = field.querySelector(".en__field__input");
 
-    let isFieldRequired =
-      fieldEl.required ||
-      fieldEl.getAttribute("aria-required") === "true" ||
-      field.classList.contains("en__mandatory") ||
-      fieldEl.closest(".en__component--formblock.i-required");
+    if (fieldEl) {
+      let isFieldRequired =
+        fieldEl.required ||
+        fieldEl.getAttribute("aria-required") === "true" ||
+        field.classList.contains("en__mandatory") ||
+        fieldEl.closest(".en__component--formblock.i-required");
 
-    const enField = fieldEl.closest(".en__field");
-    const enForm = enField?.parentElement;
+      const enField = fieldEl.closest(".en__field");
+      const enForm = enField?.parentElement;
 
-    if (enForm) {
-      // Check if field is required based on its parent's iX-required class
-      const index = [...enForm.children].indexOf(enField);
-      if (enForm.classList.contains(`i${index + 1}-required`)) {
-        isFieldRequired = true;
-      }
+      if (enForm) {
+        // Check if field is required based on its parent's iX-required class
+        const index = [...enForm.children].indexOf(enField);
+        if (enForm.classList.contains(`i${index + 1}-required`)) {
+          isFieldRequired = true;
+        }
 
-      // Update the label to reflect the required status
-      const labelEl = enField.querySelector(
-        ".en__component--formblock:not(.give-by-select) .en__field__label"
-      );
-      if (labelEl) {
-        const label = labelEl.textContent.trim();
-        if (isFieldRequired && !label.endsWith("*")) {
-          labelEl.textContent = `${label}*`;
-        } else if (!isFieldRequired && label.endsWith("*")) {
-          labelEl.textContent = label.slice(0, -1);
+        // Update the label to reflect the required status
+        const labelEl = enField.querySelector(
+          ".en__component--formblock:not(.give-by-select) .en__field__label"
+        );
+        if (labelEl) {
+          const label = labelEl.textContent.trim();
+          if (isFieldRequired && !label.endsWith("*")) {
+            labelEl.textContent = `${label}*`;
+          } else if (!isFieldRequired && label.endsWith("*")) {
+            labelEl.textContent = label.slice(0, -1);
+          }
         }
       }
     }
