@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, December 19, 2025 @ 15:32:19 ET
+ *  Date: Monday, December 22, 2025 @ 20:32:26 ET
  *  By: cawe
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.6
@@ -24851,24 +24851,26 @@ const customScript = function (App, EnForm) {
    */
   function updateLabel(field) {
     const fieldEl = field.querySelector(".en__field__input");
-    let isFieldRequired = fieldEl.required || fieldEl.getAttribute("aria-required") === "true" || field.classList.contains("en__mandatory") || fieldEl.closest(".en__component--formblock.i-required");
-    const enField = fieldEl.closest(".en__field");
-    const enForm = enField?.parentElement;
-    if (enForm) {
-      // Check if field is required based on its parent's iX-required class
-      const index = [...enForm.children].indexOf(enField);
-      if (enForm.classList.contains(`i${index + 1}-required`)) {
-        isFieldRequired = true;
-      }
+    if (fieldEl) {
+      let isFieldRequired = fieldEl.required || fieldEl.getAttribute("aria-required") === "true" || field.classList.contains("en__mandatory") || fieldEl.closest(".en__component--formblock.i-required");
+      const enField = fieldEl.closest(".en__field");
+      const enForm = enField?.parentElement;
+      if (enForm) {
+        // Check if field is required based on its parent's iX-required class
+        const index = [...enForm.children].indexOf(enField);
+        if (enForm.classList.contains(`i${index + 1}-required`)) {
+          isFieldRequired = true;
+        }
 
-      // Update the label to reflect the required status
-      const labelEl = enField.querySelector(".en__component--formblock:not(.give-by-select) .en__field__label");
-      if (labelEl) {
-        const label = labelEl.textContent.trim();
-        if (isFieldRequired && !label.endsWith("*")) {
-          labelEl.textContent = `${label}*`;
-        } else if (!isFieldRequired && label.endsWith("*")) {
-          labelEl.textContent = label.slice(0, -1);
+        // Update the label to reflect the required status
+        const labelEl = enField.querySelector(".en__component--formblock:not(.give-by-select) .en__field__label");
+        if (labelEl) {
+          const label = labelEl.textContent.trim();
+          if (isFieldRequired && !label.endsWith("*")) {
+            labelEl.textContent = `${label}*`;
+          } else if (!isFieldRequired && label.endsWith("*")) {
+            labelEl.textContent = label.slice(0, -1);
+          }
         }
       }
     }
@@ -25261,6 +25263,48 @@ const customScript = function (App, EnForm) {
     });
   }
   /* End Split Gift  */
+
+  /* 
+    Start Clear Spouse Name Fields
+     Behavior:
+    - On page load, if the spouse checkbox is unchecked, clear the spouse first and last name input fields.
+    - When the spouse checkbox is changed to unchecked manually or programmatically, clear the spouse first and last name input fields.
+  */
+  const spouseCheckbox = document.querySelector('input[name="supporter.questions.417692"]');
+  const spouseFirstNameInput = document.querySelector('input[name="supporter.NOT_TAGGED_17"]');
+  const spouseLastNameInput = document.querySelector('input[name="supporter.NOT_TAGGED_18"]');
+  function clearSpouseNameInputs() {
+    if (spouseFirstNameInput) {
+      spouseFirstNameInput.value = "";
+      spouseFirstNameInput.setAttribute("data-value", "");
+    }
+    if (spouseLastNameInput) {
+      spouseLastNameInput.value = "";
+      spouseLastNameInput.setAttribute("data-value", "");
+    }
+  }
+  function handleSpouseCheckboxState() {
+    if (!spouseCheckbox.checked) {
+      clearSpouseNameInputs();
+    }
+  }
+  if (spouseCheckbox) {
+    // Initial check on page load
+    handleSpouseCheckboxState();
+
+    // Listen for manual changes to the checkbox
+    spouseCheckbox.addEventListener("change", handleSpouseCheckboxState);
+
+    // Listen for programmatic changes to the checkbox
+    const observer = new MutationObserver(() => {
+      handleSpouseCheckboxState();
+    });
+    observer.observe(spouseCheckbox, {
+      attributes: true,
+      attributeFilter: ["checked"]
+    });
+  }
+  /* End Clear Spouse Name Fields */
 };
 ;// ./src/scripts/tatango.ts
 

@@ -519,4 +519,57 @@ export const customScript = function (App, EnForm) {
     });
   }
   /* End Split Gift  */
+
+  /* 
+    Start Clear Spouse Name Fields
+
+    Behavior:
+    - On page load, if the spouse checkbox is unchecked, clear the spouse first and last name input fields.
+    - When the spouse checkbox is changed to unchecked manually or programmatically, clear the spouse first and last name input fields.
+  */
+  const spouseCheckbox = document.querySelector(
+    'input[name="supporter.questions.417692"]'
+  );
+  const spouseFirstNameInput = document.querySelector(
+    'input[name="supporter.NOT_TAGGED_17"]'
+  );
+  const spouseLastNameInput = document.querySelector(
+    'input[name="supporter.NOT_TAGGED_18"]'
+  );
+
+  function clearSpouseNameInputs() {
+    if (spouseFirstNameInput) {
+      spouseFirstNameInput.value = "";
+      spouseFirstNameInput.setAttribute("data-value", "");
+    }
+    if (spouseLastNameInput) {
+      spouseLastNameInput.value = "";
+      spouseLastNameInput.setAttribute("data-value", "");
+    }
+  }
+
+  function handleSpouseCheckboxState() {
+    if (!spouseCheckbox.checked) {
+      clearSpouseNameInputs();
+    }
+  }
+
+  if (spouseCheckbox) {
+    // Initial check on page load
+    handleSpouseCheckboxState();
+
+    // Listen for manual changes to the checkbox
+    spouseCheckbox.addEventListener("change", handleSpouseCheckboxState);
+
+    // Listen for programmatic changes to the checkbox
+    const observer = new MutationObserver(() => {
+      handleSpouseCheckboxState();
+    });
+
+    observer.observe(spouseCheckbox, {
+      attributes: true,
+      attributeFilter: ["checked"],
+    });
+  }
+  /* End Clear Spouse Name Fields */
 };
