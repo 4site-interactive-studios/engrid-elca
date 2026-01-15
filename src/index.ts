@@ -1,17 +1,17 @@
-import {
-  Options,
-  App,
-  DonationAmount,
-  DonationFrequency,
-  EnForm,
-} from "@4site/engrid-scripts"; // Uses ENGrid via NPM
 // import {
 //   Options,
 //   App,
 //   DonationAmount,
 //   DonationFrequency,
 //   EnForm,
-// } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+// } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
+import {
+  Options,
+  App,
+  DonationAmount,
+  DonationFrequency,
+  EnForm,
+} from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
 
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
@@ -44,6 +44,9 @@ const options: Options = {
     phone_record_field: "supporter.NOT_TAGGED_113",
     phone_date_field: "supporter.NOT_TAGGED_112",
     phone_status_field: "supporter.NOT_TAGGED_109",
+    phone2_record_field: "supporter.NOT_TAGGED_154",
+    phone2_date_field: "supporter.NOT_TAGGED_115",
+    phone2_status_field: "supporter.NOT_TAGGED_114",
   },
   Debug: App.getUrlParameter("debug") === "true",
   Placeholders: {
