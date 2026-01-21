@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, January 15, 2026 @ 22:32:59 ET
+ *  Date: Wednesday, January 21, 2026 @ 23:03:55 ET
  *  By: cawe
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.6
@@ -25387,7 +25387,7 @@ class TidyContact {
   constructor() {
     var _a, _b, _c, _d, _e, _f, _g;
     this.logger = new logger_EngridLogger("TidyContact", "#FFFFFF", "#4d9068", "📧");
-    this.endpoint = "https://dev-api.tidycontact.io";
+    this.endpoint = "https://api.tidycontact.io";
     this.wasCalled = false; // True if the API endpoint was called
     this.httpStatus = 0;
     this.timeout = 5; // Seconds to API Timeout
